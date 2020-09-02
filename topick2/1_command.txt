@@ -1,0 +1,2 @@
+vim .my.cnf
+chmod 0600 .my.cnf

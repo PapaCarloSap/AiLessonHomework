@@ -1,0 +1,5 @@
+CREATE DATABASE example;
+SHOW DATABASES;
+USE example
+SOURCE example_topic2.sql
+SHOW TABLES
