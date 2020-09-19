@@ -240,3 +240,17 @@ ALTER TABLE posts
 	ADD CONSTRAINT posts_media_id_fk
 		FOREIGN KEY (media_id) REFERENCES media(id);
 
+-- 3 Определить кто больше поставил лайков (всего) - мужчины или женщины?
+SELECT 'Gender:', gender, 'имеет наибольшее количество лайков в размере ', like_count
+	FROM (
+		SELECT 
+			gender, COUNT(user_id) AS like_count
+			FROM profiles
+			WHERE user_id IN (SELECT user_id FROM likes)
+			GROUP BY gender 
+	) AS gender_likes
+	-- ORDER BY MAX(like_count);
+	ORDER BY like_count DESC 
+	LIMIT 1;
+
+-- 4 Подсчитать общее количество лайков десяти самым молодым пользователям (сколько лайков получили 10 самых молодых пользователей).
