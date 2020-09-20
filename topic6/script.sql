@@ -267,3 +267,36 @@ SELECT CONCAT('Общее количество лайков: \'', COUNT(id), '\'
 			LIMIT 10) AS user_likes);
 
 -- 5 Найти 10 пользователей, которые проявляют наименьшую активность в использовании социальной сети(критерии активности необходимо определить самостоятельно).
+-- Активность считал по сумме постов, лайков, сообщений и загруженных медиафайлов каждым пользователем
+SELECT 
+	CONCAT('Наименьшую активность в соц. сети проявляют: ', first_name, ' ', last_name)
+	FROM 
+		(SELECT 
+			first_name,
+			last_name,
+			(SELECT 
+				COUNT(id) 
+				FROM media 
+				WHERE media.user_id = users.id 
+				GROUP BY user_id) AS media_count, 
+			(SELECT 
+				COUNT(id) 
+				FROM posts 
+				WHERE posts.user_id = users.id 
+				GROUP BY user_id) AS posts_count,
+			(SELECT 
+				COUNT(id) 
+				FROM likes
+				WHERE likes.user_id = users.id 
+				GROUP BY user_id) AS likes_count,
+			(SELECT 
+				COUNT(id) 
+				FROM messages
+				WHERE messages.from_user_id = users.id 
+				GROUP BY from_user_id) AS messages_count
+			FROM users) AS summary_alias
+	ORDER BY COALESCE(media_count, 0) 
+		+ COALESCE(posts_count, 0) 
+		+ COALESCE(likes_count, 0) 
+		+ COALESCE(messages_count, 0)
+	LIMIT 10;
