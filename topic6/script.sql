@@ -241,24 +241,19 @@ ALTER TABLE posts
 		FOREIGN KEY (media_id) REFERENCES media(id);
 
 -- 3 Определить кто больше поставил лайков (всего) - мужчины или женщины?
-SELECT CONCAT('Gender: \'', gender, '\' имеет наибольшее количество лайков в размере ', like_count) AS max_likes
-	FROM (
-		SELECT 
-			gender, COUNT(user_id) AS like_count
-			FROM profiles
-			WHERE user_id IN (SELECT user_id FROM likes)
-			GROUP BY gender 
-	) AS gender_likes
-	-- WHERE  like_count = (SELECT MAX(like_count) FROM gender_likes);
-	ORDER BY like_count DESC 
+SELECT 
+	(SELECT gender FROM profiles WHERE profiles.user_id = likes.user_id) AS gender,
+	COUNT(id) count_like
+	FROM likes
+	GROUP BY gender
+	ORDER BY count_like DESC 
 	LIMIT 1;
--- хотел вывести все макисмальные значения с полем gender но не получилось. На тот случай если будет равенство лайков.
 
 -- 4 Подсчитать общее количество лайков десяти самым молодым пользователям (сколько лайков получили 10 самых молодых пользователей).
 SELECT CONCAT('Общее количество лайков: \'', COUNT(id), '\'') AS max_likes
 	FROM 
 		likes 
-	WHERE user_id IN (SELECT user_id FROM (
+	WHERE target_id IN (SELECT user_id FROM (
 		SELECT 
 			user_id,
 			TIMESTAMPDIFF(YEAR, birthday, NOW()) as age
