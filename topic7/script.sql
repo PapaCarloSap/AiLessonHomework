@@ -13,3 +13,14 @@ JOIN
 	orders
 ON
 	users.id=orders.user_id ;
+
+-- 2 Выведите список товаров products и разделов catalogs, который соответствует товару.
+SELECT 
+	products.name AS product_name,
+	catalogs.name AS catalog_name
+FROM
+	products
+JOIN 
+	catalogs
+ON
+	products.catalog_id = catalogs.id;
