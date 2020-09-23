@@ -26,3 +26,19 @@ GROUP BY
    profiles.user_id 
 ORDER BY
    profiles.birthday DESC LIMIT 10;
+
+-- 5 Найти 10 пользователей, которые проявляют наименьшую активность в использовании социальной сети(критерии активности необходимо определить самостоятельно).
+-- Активность считал по сумме постов, лайков, сообщений и загруженных медиафайлов каждым пользователем
+SELECT 
+	CONCAT( first_name, ' ', last_name) AS user,
+	COUNT(media.id) + COUNT(posts.id) + COUNT(likes.id) + COUNT(messages.id) AS overall_activity
+FROM 
+	users 
+	LEFT JOIN media ON media.user_id = users.id
+	LEFT JOIN posts ON posts.user_id = users.id
+	LEFT JOIN likes ON likes.user_id = users.id
+	LEFT JOIN messages ON messages.from_user_id = users.id
+GROUP BY 
+	user
+ORDER BY 
+	overall_activity LIMIT 10;
