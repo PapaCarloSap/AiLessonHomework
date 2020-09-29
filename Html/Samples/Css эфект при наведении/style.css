@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("img/concrete-texture.png");
+}
+
+.blocImg {
+    width: 600px;
+    height: 338px;
+    overflow: hidden;
+    cursor: pointer;
+   }  
+
+.dws {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+   } 
+
+.blocImg img {
+    width: 100%;
+    transition: 2s;
+   }  
+
+.dws:hover .blocImg img {
+    transform: rotate(-10deg) scale(1.3);
+    filter: blur(1px);
+    opacity: .5;
+   }  
+
+.blocText {
+    outline: 1px solid orange;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+   }  

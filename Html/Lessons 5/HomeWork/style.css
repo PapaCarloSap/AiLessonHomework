@@ -1,0 +1,197 @@
+.container{
+    width: 100em;
+    height: 70em;
+    margin: 10px auto;
+}
+
+.header{
+    height: 8em;
+}
+
+.logo{
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    float: left;
+}
+
+.mainmenu {
+    float: left;
+    width: 80%;
+
+}
+
+.mainmenu ul li{
+    list-style-type: none;      /* убераем точки */
+    float: right;
+    margin: 2em;
+}
+
+.mainmenu ul li a{
+    text-decoration: none;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2em;
+    padding: 0.5em;
+    color: rgb(76, 180, 245);
+    border: 3px solid rgb(255, 255, 255);;
+}
+
+.mainmenu ul li a:hover{
+    background-color: lightgoldenrodyellow;
+    border-radius: 10px;
+    border: 3px solid rgb(76, 180, 245);;
+}
+
+.content{
+    color: rgb(58, 58, 58);
+    height: 50em;
+}
+
+.content img[alt="hello"]{
+    width: 20em;
+    height: 15em;
+    float: left;
+}
+
+.home_img{
+    height: 27em;
+}
+
+.home_1{
+    position: relative;
+    left: 0em;
+    top: 0em;
+}
+
+.home_2{
+    position: relative;
+    left: 0em;
+    top: 10em;
+}
+
+.home_3{
+    position: relative;
+    left:0em;
+}
+
+.home_4{
+    position: relative;
+    left: 0em;
+    top:10em
+}
+
+.home_5{
+    position: relative;
+    left: 0em;
+}
+
+.content h2{
+    font-size: 4em;
+    font-style: italic;
+    font-weight: normal;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(18, 160, 248);
+    text-align: center;
+}
+
+.content h3{
+    font-size: 2em;
+    font-style: italic;
+    font-weight: normal;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(18, 160, 248);
+}
+
+.content p:first-letter{
+    font-size: 2em;
+    color: rgb(18, 160, 248);
+}
+
+hr{
+    color:  rgb(18, 160, 248);;
+}
+
+.footer{
+    height: 3em;
+    background-color: rgb(200, 225, 241);
+    color: rgb(99, 99, 99);
+    padding: 0.2em;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.footer p{
+    padding-right: 1em;
+    text-align: right;
+}
+
+.travel{
+    
+}
+
+.content .travel a{
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5em;
+    padding-left: 17em;
+    margin-top: 4em;
+    color: rgb(76, 180, 245);
+    width: 20%;
+    display: inline-block;
+}
+
+.image{
+    display: inline;
+}
+
+.describe{
+    display: inline;
+}
+
+.describe a{
+    padding-left: 10em;
+}
+
+.image img{
+    width: 10em;
+    height: 10em;
+}
+
+.describe a{
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2em;
+    color: rgb(76, 180, 245);
+}
+
+
+.positionheader+a>img{
+    width: 20em;
+    height: 20em;
+    padding: 5px;
+    float: left;
+    margin: 2em;
+}
+
+.pay{
+    text-align: center;
+    margin-top: 3em;
+}
+
+.pay form{
+    display: inline;
+}
+
+.pay form button{
+    background-color: rgb(11, 105, 14); /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.pay form button:hover{
+    background-color: rgb(66, 180, 70); /* Green */
+}

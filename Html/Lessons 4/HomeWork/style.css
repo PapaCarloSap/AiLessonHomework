@@ -1,0 +1,106 @@
+body{
+    background: #f8f8f8
+}
+
+img[alt="Logo"]{
+    float:left;
+    border: 1ex dotted rgb(50, 173, 50);
+    width: 18ex;
+}
+
+.content{
+    height: 50em;
+}
+
+.mainmenu li{
+    list-style-type: none;
+    display: inline;
+}
+
+.mainmenu li a{
+    color: rgb(20, 95, 20);
+    font-size: 2em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    text-decoration: none;
+    padding: 2em;
+}
+
+.mainmenu li a:hover{
+    color: rgb(50, 173, 50);;
+}
+
+.positionheader{
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.position body{
+    background: #eaeaea;
+}
+
+.positionshortdescribe{
+    color: #707070;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 16px;
+}
+
+.positionlongdescribe{
+    color: #484343;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left
+}
+
+input{
+    height: 1.5em;
+    width: 20em;
+    color: darkblue;
+    font-size: 1em;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+}
+
+input[placeholder="email"]:focus{
+    color: yellow;
+    background: navy;
+} 
+  
+input, textarea{
+    text-transform: capitalize;  
+}
+
+table{
+    border-collapse: collapse;
+}
+
+table tr:nth-child(2n-1) {
+    background-color: gainsboro;
+}
+
+table th{
+    padding: 10px;
+}
+
+table td{
+    border: 2px solid gray;
+    padding: 10px;
+}
+
+.positionheader+a>img{
+    width: 20em;
+    height: 20em;
+    padding: 5px;
+}
+
+.positionheader+a>img{
+    border: 2px solid  indigo;
+}
+
+.positionheader+a>img:hover{
+    padding: 7px;
+    border: 0px;
+}
