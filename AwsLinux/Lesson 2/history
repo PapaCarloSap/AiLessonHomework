@@ -1,0 +1,32 @@
+    1  mkdir lesson2
+    2  ls
+    3  history
+    4  mkdir first
+    5  ls
+    6  rm -r first
+    7  ls
+    8  cd lesson2
+    9  mkdir first
+   10  mkdir second
+   11  ls
+   12  cd first
+   13  cd ..
+   14  echo print("1") > first/first.py
+   15  echo "print('1')" > first/first.py
+   16  less first/first.py
+   17  echo "print('1')" > first/first.py
+   18  ls first
+   19  lssecond
+   20  ls second
+   21  echo "print('2')" > second/second.py
+   22  ls second
+   23  mv --help
+   24  mv second/second.py first/second.py
+   25  ls first
+   26  rm -r second
+   27  ls
+   28  mv first first_second
+   29  ls
+   30  rm -r first_second
+   31  ls
+   32  history

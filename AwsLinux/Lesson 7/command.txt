@@ -1,0 +1,8 @@
+# 1 
+ls | grep '^t.*\.py'
+
+# 2 
+grep 'print' *.py
+
+# 3 time
+uptime | sed 's/^.*\([0-9]\+:[0-9]\+\), \+[0-9]\+ user.*/\1/'

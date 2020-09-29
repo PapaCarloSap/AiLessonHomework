@@ -1,0 +1,15 @@
+// 1
+vim file1.txt
+
+// 2 
+cat file1.txt | wc -l
+
+// 3 Создал файл и вывел результат
+echo 'Linear regression' > file3.txt ; cat file3.txt
+
+// 4 
+cat file1.txt file2.txt > file3.txt ; cat file3.txt
+
+// 5
+// подсмотрел в книге но очень как по мне красивая команда
+cat .ssh/id_rsa.pub | ssh ubuntu@10.0.3.142 "cat >> .ssh/autorized_keys"

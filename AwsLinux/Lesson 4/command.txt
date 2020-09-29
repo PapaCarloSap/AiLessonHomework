@@ -1,0 +1,25 @@
+// 1
+vim prg_1.py
+sudo useradd -m -s /bin/bash myfirstuser
+sudo passwd myfirstuser
+sudo usermod -aG ubuntu myfirstuser
+
+// 2
+su myfirstuser
+Task 2.png
+
+// 3
+su myfirstuser
+cd ~
+vim prg_2.py
+***prg_2.py***
+        #!/usr/bin/python3
+
+        import time
+
+        for item in range(1, 11):
+            time.sleep(1)
+            print(f"{item}")
+******
+chmod +x prg_2.py
+./prg_2.py

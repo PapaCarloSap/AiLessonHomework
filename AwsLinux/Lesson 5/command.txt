@@ -1,0 +1,26 @@
+// 1 
+htop
+(photo)
+
+// 2
+# их много
+sudo find / -type f -name '*.py'
+
+// 3
+vim prg5_3.py
+***prg5_3.py***
+        #!/usr/bin/python3
+
+        import time
+
+        for item in range(1, 101):
+            time.sleep(1)
+            print(f"{item}")
+******
+chmod +x prg5_3.py
+./prg5_3.py
+# ctrl+z
+jobs -l
+htop
+# photo
+

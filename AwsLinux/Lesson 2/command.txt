@@ -1,0 +1,20 @@
+mkdir lesson2
+
+// 1
+cd lesson2
+mkdir first
+mkdir second
+echo "print('1')" > first/first.py
+echo "print('2')" > second/second.py
+
+// 2
+mv second/second.py first/second.py
+
+// 3
+rm -r second
+
+// 4
+mv first first_second
+
+// 5
+rm -r first_second
