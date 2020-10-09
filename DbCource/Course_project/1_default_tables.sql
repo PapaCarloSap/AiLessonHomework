@@ -6,7 +6,7 @@ USE rental_housing;
 DROP TABLE IF EXISTS countries;
 CREATE TABLE countries
 (
-	id INT,
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
     two_char_code CHAR(2),
     three_char_code CHAR(3)    
