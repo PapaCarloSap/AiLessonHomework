@@ -28,3 +28,4 @@ CREATE VIEW user_country_estimate AS
 		LEFT JOIN countries ON addresses.country_id = countries.id
 		JOIN reviews ON reviews.order_id = orders.id
 	ORDER BY login,estimate; 
+
