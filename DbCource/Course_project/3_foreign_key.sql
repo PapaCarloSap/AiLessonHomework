@@ -91,3 +91,10 @@ ALTER TABLE users
 	ADD CONSTRAINT users_photo_id_fk
 		FOREIGN KEY (photo_id) REFERENCES photos(id)
 			ON DELETE SET NULL;
+
+		
+-- Индексирование по цене
+CREATE INDEX rents_price ON rents(price);
+-- Индексирование по имени страны 
+CREATE INDEX countries_name ON countries(name);
+

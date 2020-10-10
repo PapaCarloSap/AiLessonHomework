@@ -3502,5 +3502,37 @@ ALTER TABLE users
 		FOREIGN KEY (photo_id) REFERENCES photos(id)
 			ON DELETE SET NULL;
 
+-- Индексирование по цене
+CREATE INDEX rents_price ON rents(price);
+-- Индексирование по имени страны 
+CREATE INDEX countries_name ON countries(name);
 
+-- Вывести логин арендодателя страну город и цену сдаваемого жилья 
+CREATE VIEW user_rent_price_view AS 
+	SELECT 
+		users.name AS login,
+		countries.name AS countries,
+		addresses.city AS city,
+		rents.price AS price 
+	FROM 
+		users
+		RIGHT JOIN rents ON rents.user_id = users.id
+		LEFT JOIN addresses ON rents.addresses_id = addresses.id
+		LEFT JOIN countries ON addresses.country_id = countries.id
+	ORDER BY countries;
+
+-- Вывести пользователя и его отценки при путешествии по странам 
+CREATE VIEW user_country_estimate AS 
+	SELECT 
+		users.name AS login,
+		countries.name AS countries,
+		reviews.estimate AS estimate 
+	FROM 
+		users
+		RIGHT JOIN orders ON orders.customer_user_id = users.id
+		JOIN rents ON orders.rent_id = rents.id
+		LEFT JOIN addresses ON rents.addresses_id = addresses.id
+		LEFT JOIN countries ON addresses.country_id = countries.id
+		JOIN reviews ON reviews.order_id = orders.id
+	ORDER BY login,estimate; 
 
