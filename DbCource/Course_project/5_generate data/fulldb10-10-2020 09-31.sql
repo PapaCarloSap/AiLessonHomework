@@ -3433,6 +3433,7 @@ INSERT INTO `users` (`id`, `name`, `first_name`, `last_name`, `photo_id`, `creat
 UPDATE addresses SET updated_at = NOW() WHERE updated_at < created_at;
 UPDATE messages SET updated_at = NOW() WHERE updated_at < created_at;
 UPDATE orders SET updated_at = NOW() WHERE updated_at < created_at;
+UPDATE orders SET end_date_rent = NOW() WHERE end_date_rent < start_date_rent;
 UPDATE photos SET updated_at = NOW() WHERE updated_at < created_at;
 UPDATE photos_rent SET updated_at = NOW() WHERE updated_at < created_at;
 UPDATE profiles SET updated_at = NOW() WHERE updated_at < created_at;
@@ -3500,5 +3501,6 @@ ALTER TABLE users
 	ADD CONSTRAINT users_photo_id_fk
 		FOREIGN KEY (photo_id) REFERENCES photos(id)
 			ON DELETE SET NULL;
+
 
 
