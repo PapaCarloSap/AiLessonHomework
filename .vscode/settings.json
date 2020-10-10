@@ -1,4 +1,19 @@
 {
     "python.pythonPath": "C:\\Python3\\python.exe",
-    "python.dataScience.jupyterServerURI": "local"
+    "python.dataScience.jupyterServerURI": "local",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "192.168.2.45",
+            "port": 3306,
+            "askForPassword": true,
+            "driver": "MySQL",
+            "name": "DBvmCourse",
+            "username": "solomennik",
+            "database": "mysql"
+        }
+    ]
 }

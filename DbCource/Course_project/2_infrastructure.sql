@@ -29,7 +29,6 @@ CREATE TABLE addresses (
 	city VARCHAR(130) NOT NULL COMMENT 'City',
 	country_id INT UNSIGNED NOT NULL COMMENT 'Link on country',
 	postal_code VARCHAR(30) COMMENT 'Postal code (ZIP)',
-	type_address ENUM('registration address', 'address for rent'),
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Time create record',
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Time update record'
 ) COMMENT = 'Addresses for registred users or rent out housing';
@@ -48,7 +47,7 @@ CREATE TABLE rents (
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	customer_user_id INT UNSIGNED NOT NULL COMMENT 'Сustomer housing',
+	customer_user_id INT UNSIGNED NOT NULL COMMENT 'Ð¡ustomer housing',
 	rent_id INT UNSIGNED NOT NULL COMMENT 'Housing for rent',
 	price decimal(8, 2) NOT NULL COMMENT 'Summary price',
 	start_date_rent DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Start time rent',
@@ -59,10 +58,9 @@ CREATE TABLE orders (
 
 DROP TABLE IF EXISTS photos;
 CREATE TABLE photos (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	user_id INT UNSIGNED NOT NULL COMMENT 'user', 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	filename VARCHAR(255) NOT NULL COMMENT 'path to file',
-	digest varchar(256) NOT NULL comment 'SHA256 дайжест файла',
+	digest varchar(256) NOT NULL comment 'SHA256 Ð´Ð°Ð¹Ð¶ÐµÑ�Ñ‚ Ñ„Ð°Ð¹Ð»Ð°',
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Time create record',
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Time update record'
 ) COMMENT = 'Repository of photos';
@@ -82,7 +80,7 @@ CREATE TABLE messages (
 	to_user_id INT UNSIGNED NOT NULL COMMENT 'Link on user recipients',
 	body TEXT NOT NULL COMMENT 'Text of message',
 	is_important BOOLEAN COMMENT 'Mark important',
-	is_delivered BOOLEAN COMMENT 'Mark вeliveries',
+	is_delivered BOOLEAN COMMENT 'Mark Ð²eliveries',
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Time create record',
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Time update record'
 ) COMMENT = 'Chat';
@@ -92,7 +90,8 @@ CREATE TABLE reviews (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	order_id INT UNSIGNED NOT NULL COMMENT 'Link on order',
 	body TEXT NOT NULL COMMENT 'Text of message',
-	author ENUM('customer', '', 'seller'),
+	estimate TINYINT COMMENT 'Order estimate', 
+	author ENUM('customer', 'seller'),
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Time create record',
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Time update record'
 ) COMMENT = 'Reviews about orders';

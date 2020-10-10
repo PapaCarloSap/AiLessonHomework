@@ -30,8 +30,8 @@ ALTER TABLE messages
 			
 DESC orders;
 ALTER TABLE orders
-	DROP FOREIGN KEY orders_user_id_fk,
-	DROP FOREIGN KEY orders_country_id_fk;
+	DROP FOREIGN KEY orders_customer_user_id_fk,
+	DROP FOREIGN KEY orders_rent_id_fk;
 ALTER TABLE orders
 	ADD CONSTRAINT orders_customer_user_id_fk
 		FOREIGN KEY (customer_user_id) REFERENCES users(id)
@@ -39,14 +39,6 @@ ALTER TABLE orders
 	ADD CONSTRAINT orders_rent_id_fk
 		FOREIGN KEY (rent_id) REFERENCES rents(id)
 			ON DELETE RESTRICT;
-		
-DESC photos;
-ALTER TABLE photos
-	DROP FOREIGN KEY photos_user_id_fk;
-ALTER TABLE photos
-	ADD CONSTRAINT photos_user_id_fk
-		FOREIGN KEY (user_id) REFERENCES users(id)
-			ON DELETE CASCADE;
 		
 DESC photos_rent;
 ALTER TABLE photos_rent
@@ -86,8 +78,7 @@ ALTER TABLE rents
 		
 DESC reviews;
 ALTER TABLE reviews
-	DROP FOREIGN KEY rents_user_id_fk,
-	DROP FOREIGN KEY rents_addresses_id_fk;
+	DROP FOREIGN KEY reviews_order_id_fk;
 ALTER TABLE reviews
 	ADD CONSTRAINT reviews_order_id_fk
 		FOREIGN KEY (order_id) REFERENCES orders(id)
