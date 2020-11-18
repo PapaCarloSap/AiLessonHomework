@@ -1,6 +1,5 @@
 {
     "python.pythonPath": "C:\\Python3\\python.exe",
-    "python.dataScience.jupyterServerURI": "local",
     "sqltools.connections": [
         {
             "mysqlOptions": {
@@ -15,5 +14,6 @@
             "username": "solomennik",
             "database": "mysql"
         }
-    ]
+    ],
+    "jupyter.jupyterServerType": "local"
 }
