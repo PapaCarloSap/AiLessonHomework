@@ -1,6 +1,4 @@
 Python_ML_lib/Course_project/ASolomennik_predictions.csv
 Python_ML_lib/Course_project/ASolomennik_solution.ipynb
-Python_ML_lib_classification/Course_project/dev/__pycache__/ml_helper.cpython-38.pyc
-Python_ML_lib_classification/Course_project/dev/.ipynb_checkpoints/draft-checkpoint.ipynb
-Data_mining/hw1/tests/__pycache__/Parser5ka_test.cpython-38-pytest-5.4.3.pyc
-Data_mining/hw1/tests/__pycache__/test_Parser5ka.cpython-38-pytest-5.4.3.pyc
+.ipynb_checkpoints/
+__pycache__/

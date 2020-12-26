@@ -1,5 +1,5 @@
-import unittest
-import Data_mining.hw1 as hw1
+import Data_mining.hw1.hw1 as hw1
+
 # from Data_mining.hw1 import Parser5ka
 
 
