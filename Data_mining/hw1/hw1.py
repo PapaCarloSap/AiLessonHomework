@@ -20,16 +20,19 @@ class Parser5ka:
     }
     
     def __init__(self):
-        self.repo_path = os.path.join(os.path.dirname(__file__), '__tmp__')
-        os.makedirs(self.repo_path, exist_ok=True)
+        self._create_result_folder()
     
     def load_products_by_category(self):
         for category in self._parse_categories(self.category_url):
-            for product in self._parse_products(self._get_url_products_by_category(category['parent_group_code'])):
-                category_name = category['parent_group_name'].replace(' ', '_')
-                file_path = os.path.join(self.repo_path, f'{category_name}.json')
-                repo:dict = 
-                self.save_file(file_path, product)
+            category_name = category['parent_group_name'].replace(' ', '_')
+            category_code = category['parent_group_code']
+            file_path = os.path.join(self.repo_path, f'{category_name}.json')
+            products = self._parse_products(self._get_url_products_by_category(category_code))
+            repo:dict = {
+                "parent_group_code": category_code,
+                "parent_group_name": category['parent_group_name'],
+                "products": products}
+            self.save_file(file_path, repo)
     
     def _parse_categories(self, url):
         response = self._get_response(url, headers=self.headers)
@@ -38,11 +41,13 @@ class Parser5ka:
             yield category_info
 
     def _parse_products(self, url):
+        result = list()
         while url:
             response = self._get_response(url, headers=self.headers)
             data: dict = response.json()
             url = data['next']
-            yield data.get('results', [])
+            result.extend(data.get('results', []))
+        return result
 
     def _get_url_category(self, category_code: str) -> str:
         return self.category_url + category_code + '/'
@@ -50,7 +55,9 @@ class Parser5ka:
     def _get_url_products_by_category(self, category_code: str) -> str:
         return self.products_by_category_url.format(category_code)
 
-    def _create_result_folder
+    def _create_result_folder(self):
+        self.repo_path = os.path.join(os.path.dirname(__file__), '__tmp__')
+        os.makedirs(self.repo_path, exist_ok=True)
 
     def _get_response(self, url, **kwargs):
         while True:
@@ -62,13 +69,6 @@ class Parser5ka:
             except (requests.exceptions.ConnectTimeout,
                     StatusCodeError):
                 time.sleep(0.1)
-    
-    def parse(self, url):
-        while url:
-            response = self._get_response(url, headers=self.headers)
-            data: dict = response.json()
-            url = data['next']
-            yield data.get('results', [])
     
     def save_file(self, file_path, data: dict):
         with open(file_path, 'w', encoding='UTF-8') as file:
