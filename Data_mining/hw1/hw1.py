@@ -3,35 +3,51 @@ import json
 from pathlib import Path
 import requests
 
-"""
-GET
-POST
-PUT
-PATCH
-DELETE
-"""
-
-"""
-1xx
-2xx
-3xx
-4xx
-5xx
-"""
-
 class StatusCodeError(Exception):
     def __init__(self, txt):
         self.txt = txt
 
 
 class Parser5ka:
+    
+    home_url='https://5ka.ru/'
+    file_category_url='api/v2/categories/'
+    category_url = home_url + file_category_url
     headers = {
-        'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0) Gecko/20100101 Firefox/84.0"
+        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
     }
     
-    def __init__(self, start_url):
-        self.start_url = start_url
+    def __init__(self):
+        pass
     
+    def load_products_by_category(self):
+        for category in self._parse_categories(self.category_url):
+            for product in self._parse_products(self._get_url_category(category['parent_group_code'])):
+                pass
+
+        for products in self.parse(self.start_url):
+            for product in products:
+                file_path = Path(__file__).parent.joinpath(f'{product["id"]}.json')
+                self.save_file(file_path, product)
+    
+    def _parse_categories(self, url):
+        response = self._get_response(url, headers=self.headers)
+        data: dict = response.json()
+        for category_info in data:
+            yield category_info
+            # url = data['next']
+            # for category_info in data:
+            #     for category in self._parse_categories(self._get_url_category(category_info['parent_group_code'])):
+            #         pass
+            #         #yield _parse_categories(_get_url_category(category['parent_group_code']))
+            # yield data.get('results', [])
+
+    def _parse_products(self, url):
+        pass
+
+    def _get_url_category(self, category_code: str) -> str:
+        return self._parse_categories + category_code + '/'
+
     def _get_response(self, url, **kwargs):
         while True:
             try:
@@ -42,12 +58,6 @@ class Parser5ka:
             except (requests.exceptions.ConnectTimeout,
                     StatusCodeError):
                 time.sleep(0.1)
-    
-    def run(self):
-        for products in self.parse(self.start_url):
-            for product in products:
-                file_path = Path(__file__).parent.joinpath(f'{product["id"]}.json')
-                self.save_file(file_path, product)
     
     def parse(self, url):
         while url:
@@ -63,5 +73,5 @@ class Parser5ka:
 
 
 if __name__ == '__main__':
-    parser = Parser5ka('https://5ka.ru/api/v2/special_offers/')
-    parser.run()
+    parser = Parser5ka('https://5ka.ru/api/v2/categories/')
+    parser.load_products_by_category()
