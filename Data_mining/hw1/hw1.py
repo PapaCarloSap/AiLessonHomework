@@ -28,6 +28,7 @@ class Parser5ka:
             for product in self._parse_products(self._get_url_products_by_category(category['parent_group_code'])):
                 category_name = category['parent_group_name'].replace(' ', '_')
                 file_path = os.path.join(self.repo_path, f'{category_name}.json')
+                repo:dict = 
                 self.save_file(file_path, product)
     
     def _parse_categories(self, url):
@@ -48,6 +49,8 @@ class Parser5ka:
 
     def _get_url_products_by_category(self, category_code: str) -> str:
         return self.products_by_category_url.format(category_code)
+
+    def _create_result_folder
 
     def _get_response(self, url, **kwargs):
         while True:
