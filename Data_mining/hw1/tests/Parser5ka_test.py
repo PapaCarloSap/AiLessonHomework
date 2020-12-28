@@ -1,9 +1,9 @@
 import Data_mining.hw1.hw1 as hw1
 
 
-def test_load_content_from_5ka():
-    target = hw1.Parser5ka()
-    assert target.load_products_by_category()
+# def test_load_content_from_5ka():
+#     target = hw1.Parser5ka()
+#     assert target.load_products_by_category()
 
 def test_get_url_category():
     target = hw1.Parser5ka()
