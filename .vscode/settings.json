@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Python3\\python.exe",
+    "python.pythonPath": "C:\\Python\\Python38\\python.exe",
     "sqltools.connections": [
         {
             "mysqlOptions": {
