@@ -81,8 +81,9 @@ class GbParse:
     def _get_response(self, url, **kwargs):
         while True:
             try:
+                print(url)
                 response = requests.get(url, **kwargs)
-                if response.status_code != 200:
+                if response.status_code != 200 and response.status_code != 206: # 206 not all coments readed
                     raise StatusCodeError(f'status {response.status_code}')
                 return response
             except (requests.exceptions.ConnectTimeout,
