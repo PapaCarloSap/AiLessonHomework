@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Python3\\python.exe",
+    "python.pythonPath": "C:\\Python\\Python38\\python.exe",
     "sqltools.connections": [
         {
             "mysqlOptions": {
@@ -19,7 +19,6 @@
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.testing.pytestArgs": [
-        
-    ],
+    "python.testing.pytestArgs": [],
+    "python.envFile": "${workspaceFolder}/dev.env"
 }

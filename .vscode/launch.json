@@ -6,11 +6,39 @@
     "configurations": [
         
         {
+            "name": "Python: UnitTest debug",
+            "type": "python",
+            "request": "launch",
+            "module": "unittest"
+        },
+        {
+            "name": "Python: Pytest debug",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["-v","${file}"]
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "PYTHONPATH": "${cwd}"
+            }
+        },
+        {
+            "name": "Debug Tests",
+            "type": "python",
+            "request": "test",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${cwd}"
+            }
         }
     ]
 }
