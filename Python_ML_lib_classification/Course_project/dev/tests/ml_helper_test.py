@@ -14,10 +14,5 @@ class TestCalculator(unittest.TestCase):
     def setUp(self):
         df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list('ABCD'))
 
-    #Each test method starts with the keyword test_
-    def test_add(self):
-        mlhp.add_id(df)
-
-
 if __name__ == "__main__":
   unittest.main()
