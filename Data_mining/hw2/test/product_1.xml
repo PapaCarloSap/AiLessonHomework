@@ -1,0 +1,39 @@
+<a href="/promo/135141/?geo=moskva" class="card-sale card-sale_catalogue ">
+    <div class="card-sale__header">
+        <p>Скидки на каждой полке</p>
+    </div>
+    <div class="card-sale__col card-sale__col_img">
+        <div class="label label_sm label_family card-sale__discount">−43%</div>
+        <picture>
+            <source data-srcset="/upload/iblock/35d/35d0cbd53db204027979f5c4b7aa242c.jpg" media="(max-width:767px)" srcset="/upload/iblock/35d/35d0cbd53db204027979f5c4b7aa242c.jpg">
+            <img data-src="/upload/iblock/35d/35d0cbd53db204027979f5c4b7aa242c.jpg" class="lazy loaded" alt="Питьевая вода Aqua Minerale, газированная, 2 л" src="/upload/iblock/35d/35d0cbd53db204027979f5c4b7aa242c.jpg" data-was-processed="true">
+        </picture>
+        <div class="label label_family card-sale__price">
+            <div class="label__price label__price_old">
+                <span class="label__price-integer">70</span>
+                <span class="label__price-decimal">20</span>
+            </div>
+            <div class="label__price label__price_new">
+                <span class="label__price-integer">39</span>
+                <span class="label__price-decimal">99</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-sale__col card-sale__col_content">
+        <div class="card-sale__name">
+            <p>Скидки на каждой полке</p>
+        </div>
+        <div class="card-sale__title">
+            <p>Питьевая вода Aqua Minerale, газированная, 2 л</p>
+        </div>
+        <div class="card-sale__footer">
+            <div class="card-sale__date">
+                <p>с 17 декабря</p>
+                <p>до 13 января</p>
+            </div>
+            <div class="card-sale__type">
+                <span class="card-sale__icon card-sale__icon_family"></span>
+            </div>
+        </div>
+    </div>
+</a>
