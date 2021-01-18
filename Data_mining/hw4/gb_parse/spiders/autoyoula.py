@@ -1,6 +1,6 @@
 import scrapy
 from urllib.parse import urljoin
-import pymongo
+
 
 url = 'https://auto.youla.ru/'
 
@@ -21,12 +21,9 @@ class AutoyoulaSpider(scrapy.Spider):
         "images": lambda resp: resp.css('section.PhotoGallery_thumbnails__3-1Ob button::attr(style)').re('(https?://[^\s]+)\)'),
         'specifications': lambda resp: AutoyoulaSpider.specifications_parse(resp),
         'describe': lambda resp: resp.css("div.AdvertCard_descriptionWrap__17EU3 div.AdvertCard_descriptionInner__KnuRi::text").get(),
-        'author': '',#lambda resp: urljoin(url, resp.css("div.SellerInfo_block__1HmkE a.SellerInfo_name__3Iz2N::attr(href)").get()),
-        'mobile': '',
+        # 'author': '',#lambda resp: urljoin(url, resp.css("div.SellerInfo_block__1HmkE a.SellerInfo_name__3Iz2N::attr(href)").get()),
+        # 'mobile': '',
     }
-
-    def __init__(self):
-        self.db = pymongo.MongoClient('mongodb://alex:x2Z2aX6rYdWAMm@192.168.2.58:27017/')['autoyoula']
 
     def parse(self, response, **kwargs):
         brands_links = response.css(self.css_query["brands"])
@@ -45,11 +42,7 @@ class AutoyoulaSpider(scrapy.Spider):
                 data[key] = selector(response)
             except (ValueError, AttributeError):
                 continue
-        self._save(data)
-
-    def _save(self, data):
-        collection = self.db['youla']
-        collection.insert_one(data)
+        print(data)
 
     @staticmethod
     def specifications_parse(response):
