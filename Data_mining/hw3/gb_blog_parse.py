@@ -6,6 +6,7 @@ import re
 from Data_mining.hw3.database import Database
 from Data_mining.helper.converters import get_date_dd_mon_year, StatusCodeError
 import time
+from termcolor import cprint
 
 class GbParse:
     home_url='https://geekbrains.ru/'
@@ -13,6 +14,7 @@ class GbParse:
     headers = {
         'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
     }
+    not_found= "none"
 
     def __init__(self):
         self.tasks = []
@@ -49,14 +51,16 @@ class GbParse:
 
     def _post_parse(self, url, post) -> dict:
         print(url)
+        title = self._get_title(post)
+        cprint(f'{title}', 'green')
         author_name_tag = post.find('div', attrs={'itemprop': 'author'})
         data = {
             'post_data': {
                 'url': url,
-                'title': post.find('h1', attrs={'class': 'blogpost-title'}).text,
-                'post_image': post.find('div', attrs={'class': 'blogpost-content', 'itemprop': 'articleBody'}).p.img.get('src'),
-                'date': get_date_dd_mon_year(post.find('time', attrs= {'itemprop': 'datePublished'} ).text), 
-                'num_watch': int(post.find_all('span', attrs= {'class': 'text-md'})[1].text)
+                'title': title,
+                'post_image': self._get_post_image(post),
+                'date': get_date_dd_mon_year(self._get_data_content(post)), 
+                'num_watch': self._get_num_watch(post)
             },
             'author': {
                 'url': urljoin(url, author_name_tag.parent.get('href')),
@@ -77,6 +81,35 @@ class GbParse:
             # } for comment in post.find_all('li', attrs={'class':'gb__comment-item'})],
         }
         return data
+
+    def _get_num_watch(self, post) -> int:
+        try:
+            return int(post.find_all('span', attrs= {'class': 'text-md'})[1].text)
+        except :
+            cprint(f'num_watch not found', 'red')
+            return 0
+
+    def _get_data_content(self, post):
+        try:
+            return post.find('time', attrs= {'itemprop': 'datePublished'} ).text
+        except :
+            cprint(f'date not found', 'red')
+            return self.not_found
+
+    def _get_post_image(self, post):
+        try:
+            return post.find('div', attrs={'class': 'blogpost-content', 'itemprop': 'articleBody'}).p.img.get('src')
+        except :
+            cprint(f'post_image not found', 'red')
+            return self.not_found
+
+    def _get_title(self, post):
+        title = post.find('h1', attrs={'class': 'blogpost-title'})
+        if title != None:
+            return title.text
+        else:
+            cprint(f'title not found', 'red')
+            return self.not_found
     
     def _get_response(self, url, **kwargs):
         while True:
