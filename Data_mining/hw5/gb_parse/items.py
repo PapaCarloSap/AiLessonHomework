@@ -21,3 +21,17 @@ class AutoyoulaItem(scrapy.Item):
     specifications = scrapy.Field()
     price = scrapy.Field()
     test = scrapy.Field()
+
+class HeadHunterVacancyItem(scrapy.Item):
+    _id = scrapy.Field()
+    name = scrapy.Field()
+    salary = scrapy.Field()
+    description = scrapy.Field()
+    skills = scrapy.Field()
+    author = scrapy.Field()
+
+class HeadHunterAuthorItem(scrapy.Item):
+    _id = scrapy.Field()
+    name = scrapy.Field()
+    url = scrapy.Field()
+    description = scrapy.Field()
