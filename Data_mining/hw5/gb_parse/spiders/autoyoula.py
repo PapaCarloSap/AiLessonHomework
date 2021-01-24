@@ -21,18 +21,18 @@ class AutoyoulaSpider(scrapy.Spider):
         "price": '//div[contains(@class, "AdvertCard_priceBlock")]/div[@data-target="advert-price"]/text()',
     }
  
-    def parse(self, response, **kwargs):
+    def parse(self, response):
         brands_links = response.xpath(self.xpath_query["brands"])
         yield from self.gen_task(response, brands_links, self.brand_parse)
  
-    def brand_parse(self, response, **kwargs):
+    def brand_parse(self, response):
         pagination_links = response.xpath(self.xpath_query["pagination"])
         yield from self.gen_task(response, pagination_links, self.brand_parse)
         ads_links = response.xpath(self.xpath_query["ads"])
  
         yield from self.gen_task(response, ads_links, self.ads_parse)
  
-    def ads_parse(self, response, **kwargs):
+    def ads_parse(self, response):
         loader = AutoyoulaLoader(response=response)
         loader.add_value('url', response.url)
         for key, selector in self.itm_template.items():

@@ -29,6 +29,7 @@ class HeadHunterVacancyItem(scrapy.Item):
     description = scrapy.Field()
     skills = scrapy.Field()
     author = scrapy.Field()
+    url = scrapy.Field()
 
 class HeadHunterAuthorItem(scrapy.Item):
     _id = scrapy.Field()

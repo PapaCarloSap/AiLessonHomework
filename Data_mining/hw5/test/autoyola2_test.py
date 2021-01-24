@@ -11,8 +11,6 @@ def test_ads_parse():
     url = "https://auto.youla.ru/advert/used/brilliance/h530/prv--390d963822da2ff5/"
     r = requests.get(url, headers=headers)
     response = HtmlResponse(url=url, body=r.text, encoding='utf-8')
-    #response = (url)
-    
     target = AutoyoulaSpider()
     target.ads_parse(response)
 
@@ -33,3 +31,12 @@ def test_parse_phone():
     r = requests.get(url, headers=headers)
     response = HtmlResponse(url=url, body=r.text, encoding='utf-8')
     assert AutoyoulaSpider._parse_phone(response) == '+7 (981) 426-18-86'
+
+def test_parse_pagination():
+    url = 'https://auto.youla.ru/rossiya/cars/used/hyundai/'
+    r = requests.get(url, headers=headers)
+    response = HtmlResponse(url=url, body=r.text, encoding='utf-8')
+    target = AutoyoulaSpider()
+    tasks =  target.brand_parse(response)
+    a= tasks.next()
+    print(a)

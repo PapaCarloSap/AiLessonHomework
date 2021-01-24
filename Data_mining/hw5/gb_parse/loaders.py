@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 from scrapy import Selector
 from scrapy.loader import ItemLoader
 from itemloaders.processors import TakeFirst, MapCompose
-from .items import AutoyoulaItem
+from .items import AutoyoulaItem, HeadHunterVacancyItem, HeadHunterAuthorItem
  
  
 def clear_price(item: str):
@@ -43,3 +43,7 @@ class AutoyoulaLoader(ItemLoader):
     description_out = get_description
     specifications_in = MapCompose(get_specifications)
     specifications_out = specifications_out
+
+
+class HeadHunterVacancyLoader(ItemLoader):
+    default_item_class = HeadHunterVacancyItem
