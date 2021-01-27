@@ -23,9 +23,12 @@ def test_nohelper(pagination_request:Request):
     # result = pagination_request.callback()
     # print(result)
 
-def test_vacancy_parse():
+@pytest.yield_fixture()
+def vacancy_parse():
     url = 'https://hh.ru/vacancy/41747727'
     r = requests.get(url, headers=headers)
     response = HtmlResponse(url=url, body=r.text, encoding='utf-8')
-    HeadhunterSpider()._vacancy_parse(response)
+    yield from HeadhunterSpider()._vacancy_parse(response)
+
+def test_vacancy_parse(vacancy_parse):
     assert True

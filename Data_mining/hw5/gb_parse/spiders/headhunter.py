@@ -14,7 +14,11 @@ class HeadhunterSpider(scrapy.Spider):
     }
 
     vacancy_query = {
-        "name": "//h1[@data-qa='vacancy-title']/text()"
+        "name": "//h1[@data-qa='vacancy-title']/text()",
+        "salary": '//p[@class="vacancy-salary"]/span/text()',
+        "description": '//div[@data-qa="vacancy-description" and @class="g-user-content"]//text()',
+        "skills": '//div[@class="bloko-tag-list"]//text()',
+        "author": '//div[@class="vacancy-company__details"]/a[@data-qa="vacancy-company-name"]/@href'
     }
 
     def parse(self, response):

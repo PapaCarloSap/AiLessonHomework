@@ -44,6 +44,29 @@ class AutoyoulaLoader(ItemLoader):
     specifications_in = MapCompose(get_specifications)
     specifications_out = specifications_out
 
+def get_hh_salary(items):
+    return "".join(items).replace('\xa0', '')
+
+def get_hh_description(items):
+    return "".join(items)
+
+def get_hh_skills(items):
+    return ""        
+    return "".join(items).replace('\xa0', '')  
+
+def get_hh_author(item):
+    return urljoin("https://hh.ru/", item[0])
 
 class HeadHunterVacancyLoader(ItemLoader):
     default_item_class = HeadHunterVacancyItem
+    name_out = TakeFirst()
+    url_out = TakeFirst()
+    salary_in = get_hh_salary
+    salary_out = TakeFirst()
+    description_in = get_hh_description
+    description_out = TakeFirst()
+    #skills_in = get_hh_skills
+    #skills_out = TakeFirst()
+    author_in = get_hh_author
+    author_out = TakeFirst()
+
