@@ -1,0 +1,7 @@
+termcolor==1.1.0
+
+requests==2.25.1
+beautifulsoup4==4.9.3
+pymongo==3.11.2
+SQLAlchemy==1.3.23
+Scrapy==2.4.1
