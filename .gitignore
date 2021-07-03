@@ -3,4 +3,4 @@ Python_ML_lib/Course_project/ASolomennik_solution.ipynb
 .ipynb_checkpoints/
 __pycache__/
 __tmp__/
-temp_*
+.catboost_info/
