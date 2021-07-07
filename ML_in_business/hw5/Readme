@@ -2,5 +2,4 @@
 
 project.ipynb           - проект домашнего задания
 Churn_Modelling.csv     - данные
-helperlib.py            - библиотека вспомогательных функций
 metrictool.py           - тул для работы с метриками
