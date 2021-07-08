@@ -4,4 +4,4 @@ Python_ML_lib/Course_project/ASolomennik_solution.ipynb
 __pycache__/
 __tmp__/
 temp_*
-catboost_info/
+*catboost_info
