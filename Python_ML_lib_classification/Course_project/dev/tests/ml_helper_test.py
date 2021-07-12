@@ -1,7 +1,6 @@
 import unittest
 import numpy as np
 import pandas as pd
-import Python_ML_lib_classification.Course_project.dev.ml_helper as mlhp
 
 # import sys
 # # sys.path.append('/Python_ML_lib_classification/Course_project/dev/')
@@ -10,9 +9,11 @@ import Python_ML_lib_classification.Course_project.dev.ml_helper as mlhp
 
 
 class TestCalculator(unittest.TestCase):
+    #import Python_ML_lib_classification.Course_project.dev.ml_helper as mlhp
     #setUp method is overridden from the parent class TestCase
     def setUp(self):
-        df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list('ABCD'))
+        #df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list('ABCD'))
+        pass
 
 if __name__ == "__main__":
   unittest.main()

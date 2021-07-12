@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+tabulate = "*"
+termcolor = "*"
+ipykernel = "*"
+numpy = "*"
+pandas = "*"
+matplotlib = "*"
+seaborn = "*"
+requests = "==2.25.1"
+beautifulsoup4 = "==4.9.3"
+lxml = "==4.6.2"
+pymongo = "==3.11.2"
+sqlalchemy = "==1.3.23"
+scrapy = "==2.4.1"
+scikit-learn = "==0.23.2"
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+
+[requires]
+python_version = "3.8"

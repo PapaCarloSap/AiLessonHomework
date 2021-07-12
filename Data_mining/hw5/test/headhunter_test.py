@@ -1,6 +1,5 @@
 from scrapy.http import HtmlResponse
 from scrapy.http.request import Request
-from Data_mining.hw5.gb_parse.spiders.headhunter import HeadhunterSpider
 import requests
 import pytest
 
@@ -11,6 +10,7 @@ headers = {
 
 @pytest.yield_fixture()
 def pagination_request():
+    from Data_mining.hw5.gb_parse.spiders.headhunter import HeadhunterSpider
     url = 'https://hh.ru/search/vacancy?schedule=remote&L_profession_id=0&area=113'
     r = requests.get(url, headers=headers)
     response = HtmlResponse(url=url, body=r.text, encoding='utf-8')
@@ -25,6 +25,7 @@ def test_nohelper(pagination_request:Request):
 
 @pytest.yield_fixture()
 def vacancy_parse():
+    from Data_mining.hw5.gb_parse.spiders.headhunter import HeadhunterSpider
     url = 'https://hh.ru/vacancy/41747727'
     r = requests.get(url, headers=headers)
     response = HtmlResponse(url=url, body=r.text, encoding='utf-8')

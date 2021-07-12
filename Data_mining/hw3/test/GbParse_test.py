@@ -2,8 +2,6 @@ import bs4
 import codecs
 import os
 import datetime
-import Data_mining.hw3.gb_blog_parse as lib
-import Data_mining.hw3.database as db_lib
 
 
 # def test_get_post_contetn_1():
@@ -16,6 +14,8 @@ import Data_mining.hw3.database as db_lib
 #     assert len(data['comments']) == 3
 
 def test_get_post_contetn_2():
+    import Data_mining.hw3.gb_blog_parse as lib
+    import Data_mining.hw3.database as db_lib
     #target = lib.Parser5ka('', None)
     product_path = get_file_path('post_no_comment.html')
     f=codecs.open(product_path, 'r')
@@ -25,6 +25,8 @@ def test_get_post_contetn_2():
     assert len(data['comments']) == 0
     
 def test_write_to_db():
+    import Data_mining.hw3.gb_blog_parse as lib
+    import Data_mining.hw3.database as db_lib
     db = db_lib.Database(os.environ['SQLITE_DBURL_TEST'])
     db.create_post(
         {

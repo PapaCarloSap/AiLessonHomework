@@ -1,10 +1,10 @@
-import Data_mining.hw2.project_1 as lib
 import bs4
 import codecs
 import os
 
 
 def test_get_old_price():
+    import Data_mining.hw2.project_1 as lib
     #target = lib.Parser5ka('', None)
     product_path = get_file_path('product_1.xml')
     f=codecs.open(product_path, 'r')
