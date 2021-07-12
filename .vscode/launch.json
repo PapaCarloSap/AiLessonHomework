@@ -12,13 +12,6 @@
             "module": "unittest"
         },
         {
-            "name": "Python: Pytest debug",
-            "type": "python",
-            "request": "launch",
-            "module": "pytest",
-            "args": ["-v","${file}"]
-        },
-        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
@@ -39,6 +32,15 @@
             "env": {
                 "PYTHONPATH": "${cwd}"
             }
+        },
+        {
+            "name": "Python: Pytest debug",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "module": "pytest",
+            "args": ["-v","${file}"]
         }
     ]
 }
