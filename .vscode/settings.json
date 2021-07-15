@@ -19,6 +19,9 @@
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.testing.pytestArgs": [],
+    "python.testing.pytestArgs": [
+        "--rootdir=${workspaceRoot}"
+    ],
+    "python.testing.cwd": "${workspaceRoot}",
     "python.envFile": "${workspaceFolder}/dev.env"
 }

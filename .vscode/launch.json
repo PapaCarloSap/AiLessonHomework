@@ -38,9 +38,19 @@
             "type": "python",
             "request": "launch",
             "console": "integratedTerminal",
-            "justMyCode": false,
+            "justMyCode": true,
             "module": "pytest",
             "args": ["-v","${file}"]
+        },
+        {
+            "name": "PyTest ML_in_business",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/ML_in_business",
+            "module": "pytest",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         }
     ]
 }
