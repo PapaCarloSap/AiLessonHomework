@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 tabulate = "*"
 termcolor = "*"
-ipykernel = "*"
 numpy = "*"
 pandas = "*"
 matplotlib = "*"
@@ -18,10 +17,18 @@ pymongo = "==3.11.2"
 sqlalchemy = "==1.3.23"
 scrapy = "==2.4.1"
 scikit-learn = "==0.23.2"
+deprecated = "*"
+ipykernel = "==5.4.2"
+razdel = "*"
+pymorphy2 = "*"
+nltk = "*"
+tqdm = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
+nbconvert = "*"
+rope = "*"
 
 [requires]
 python_version = "3.8"

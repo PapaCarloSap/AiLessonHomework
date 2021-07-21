@@ -16,6 +16,11 @@
         }
     ],
     "jupyter.jupyterServerType": "local",
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "jupyter.experimental.debugging": true,
+    "jupyter.debugJustMyCode": true,
+    "jupyter.debugpyDistPath": "",
+    "jupyter.interactiveWindowMode": "single",
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,

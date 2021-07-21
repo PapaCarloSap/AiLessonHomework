@@ -27,7 +27,7 @@
             "type": "python",
             "request": "test",
             "console": "integratedTerminal",
-            "justMyCode": false,
+            "justMyCode": true,
             "cwd": "${workspaceFolder}",
             "env": {
                 "PYTHONPATH": "${cwd}"
@@ -40,7 +40,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "module": "pytest",
-            "args": ["-v","${file}"]
+            "args": ["-v","${file}::test_TextCleanerTransform_v2"]
         },
         {
             "name": "PyTest ML_in_business",
