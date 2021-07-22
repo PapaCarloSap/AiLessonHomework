@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from ML_in_business.CourseProject.toxic_comment.dataset_transformations_helper import Language, TextCleanerTransform, tempEstimator
+from ML_in_business.CourseProject.toxic_comment.helper_dataset_transformations import Language, TextCleanerTransform, tempEstimator
 import collections 
 
 
@@ -41,7 +41,7 @@ import collections
 #     assert False
 
 def test_TextCleanerTransform_v2():
-    from ML_in_business.CourseProject.toxic_comment.dataset_transformations_helper import Language, TextCleanerTransform
+    from ML_in_business.CourseProject.toxic_comment.helper_dataset_transformations import Language, TextCleanerTransform
 
     expected = ["the house had a tiny little mouse", 
         "the cat saw the mouse", 
@@ -84,7 +84,7 @@ def test_TextCleanerTransform_v2():
     #     )
 
 def test_Lemmatization():
-    from ML_in_business.CourseProject.toxic_comment.dataset_transformations_helper import Language, TextLemmatizationTransform
+    from ML_in_business.CourseProject.toxic_comment.helper_dataset_transformations import Language, TextLemmatizationTransform
 
     expected = [
         'дом жить маленький мышь', 
@@ -129,7 +129,7 @@ def test_Lemmatization():
     #     )
 
 def test_generate_tokens():
-    from ML_in_business.CourseProject.toxic_comment.dataset_transformations_helper import Language, TextLemmatizationTransform
+    from ML_in_business.CourseProject.toxic_comment.helper_dataset_transformations import Language, TextLemmatizationTransform
     lem = TextLemmatizationTransform(Language.Ru)
     expected = ['она', 'ее', 'ей', 'ней', 'неё', 'ней']
     text = "она ее ей ней неё ней"
@@ -137,7 +137,7 @@ def test_generate_tokens():
     assert collections.Counter(expected) == collections.Counter(tokens)
 
 def test_normalize_tokens():
-    from ML_in_business.CourseProject.toxic_comment.dataset_transformations_helper import Language, TextLemmatizationTransform
+    from ML_in_business.CourseProject.toxic_comment.helper_dataset_transformations import Language, TextLemmatizationTransform
     lem = TextLemmatizationTransform(Language.Ru)
     expected = ['она', 'она', 'она', 'она', 'она', 'она']
     text = ['она', 'ее', 'ей', 'ней', 'неё', 'ней']
@@ -174,7 +174,7 @@ def test_TfidfVectorizer():
     pd.DataFrame(tf0.idf_, index=tf0.get_feature_names(),columns=["idf_weights"]).sort_values(by=['idf_weights'])
 
 def test_Pipeline():
-    from ML_in_business.CourseProject.toxic_comment.dataset_transformations_helper import Language, TextLemmatizationTransform, tempTransform
+    from ML_in_business.CourseProject.toxic_comment.helper_dataset_transformations import Language, TextLemmatizationTransform, tempTransform
     from sklearn.feature_extraction.text import TfidfVectorizer
 
     expected = [
