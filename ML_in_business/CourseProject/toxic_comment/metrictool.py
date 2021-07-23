@@ -288,7 +288,7 @@ class Experiment:
                 colLabels = scores_table.columns, 
                 colLoc = 'center', cellLoc = 'center', loc = 'bottom', bbox = [0, -1.3, 1, 1])
         precision, recall, th = precision_recall_curve(self.__y_test, self.__y_pred)
-        f1s = precision[:-1]*recall[:-1]
+        f1s = (2 * precision[:-1] * recall[:-1]) / (precision[:-1] + recall[:-1])
         best_th = np.argmax(f1s)
         plt1.plot(th[best_th], f1s[best_th], c='r', marker='o')
         plt1.plot([th[best_th], th[best_th]], [0.0,f1s[best_th] ], 'r--')
@@ -309,7 +309,7 @@ class Experiment:
 
         plt.show()
 
-    def show_profit_calibration_plots(self):
+    def show_profit_calibration_plots(self)->tuple:
         toxic_paies =[]
         thresholds = np.linspace(0,1,100).tolist()
         min_toxic_pay = None
@@ -333,6 +333,8 @@ class Experiment:
                     xy=(min_toxic_threshold+ 0.01, min_toxic_pay-0.05))
         plt.grid(True)
         plt.show()
+
+        return min_toxic_threshold, min_toxic_pay
 
 class ExperimentRepository:
     
