@@ -38,7 +38,7 @@ df = pd.read_csv("ML_in_business/CourseProject/toxic_comment/labeled.csv")
 #                     TARGET: [0,1,0,1,0]
 #     })
 df.info()
-df = df[:6000]        #! для реальных расчетов убрать 
+#df = df[:6000]        #! для реальных расчетов убрать 
 
 #%%
 df[TARGET] = df[TARGET].astype('bool')
@@ -139,20 +139,27 @@ metric.Confusion_matrix.show_metric()
 
 # %%
 # Экономическая часть
-metric_manager.get_experiment(model_name).show_profit_calibration_plots()
+threshold, profit = metric_manager.get_experiment(model_name).show_profit_calibration_plots()
+print(
+    'При пороге: {0:.3f} Минимальный расход будет состовлять: {1} руб.'
+    .format(
+        threshold,
+        profit
+    )
+)
 
 # %%
 # Приведем метрику к порогу 0.394
-metric = metric_manager.get_experiment(model_name).calc_metric(specified_thr=0.394)
+profit_threshold = threshold
+metric = metric_manager.get_experiment(model_name).calc_metric(specified_thr=profit_threshold)
 metric.Confusion_matrix.show_picture(
     title = 'Матрица ошибок',
     name_positive = 'Обычные',
     name_negative = 'Токсичные'
     )
 metric.Confusion_matrix.show_metric()
-print('При пороге: {0} Минимальный расход будет состовлять: {1}руб.'.format(
-    0.394,
-    metric_manager.get_experiment(model_name).get_profit()
-)
+
+# Если максимизировать по затратам то ввидно, что модель стала очень боятся штраф за пропуск токсичных коментарии и готово банить обычные коментарии
+# Если максимизировать по f1 score то модель становится более сбалансированой, но несет дополнительные экономические издержки
 
 # %%
