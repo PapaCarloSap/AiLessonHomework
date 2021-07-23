@@ -23,6 +23,7 @@ razdel = "*"
 pymorphy2 = "*"
 nltk = "*"
 tqdm = "*"
+statsmodels = "*"
 
 [dev-packages]
 pytest = "*"

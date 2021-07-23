@@ -163,3 +163,26 @@ metric.Confusion_matrix.show_metric()
 # Если максимизировать по f1 score то модель становится более сбалансированой, но несет дополнительные экономические издержки
 
 # %%
+# Для практики проведем условное A/B тестирование
+#  У нас 2 гипотезы:
+
+    # "нулевая" (H0) - наблюдаемые различия незначимы
+    # "альтернативная" (H1) - различия значимы
+
+#y_test
+y_pred= preds>threshold
+
+z_crit_value = 1.96 #соответствует доверительному интервалу в 95%
+k1, n1 = y_test.sum(), y_test.shape[0]
+k2, n2 = y_pred.sum(), y_pred.shape[0]
+k1, k2, n1, n2
+
+# %%
+from statsmodels.stats import proportion
+
+z_score, z_pvalue = proportion.proportions_ztest(np.array([k1, k2]), 
+                                                   np.array([n1, n2]))
+print('Results are ','z_score =%.3f, pvalue = %.3f'%(z_score, z_pvalue))
+
+
+# %%
