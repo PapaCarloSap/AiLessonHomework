@@ -1,0 +1,6 @@
+Папка для задачи LS-90
+
+project.ipynb           - проект домашнего задания
+Churn_Modelling.csv     - данные
+metrictool.py           - тул для работы с метриками
+debug_project           - черновик проекта 

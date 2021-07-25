@@ -1,0 +1,11 @@
+Папка для задачи LS-91
+
+project.ipynb               - проект домашнего задания
+test/FE_test.py             - тесты для библиотеки FE
+bank-additional-full.csv    - данные
+bank-additional-names.txt   - информация по данным
+debug_ lesson6.py           - черновик проекта
+debug_FE.py                 - черновик для feature engineering библиотеки
+mlhelpertool.py             - вспомогательная библиотека
+project.ipynb               - проект домашнего задания
+TransformerLib.py           - библиотека transformer
