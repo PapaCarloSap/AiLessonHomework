@@ -1,1 +1,11 @@
 Папка для задачи LS-95
+
+--- toxic_comment ---
+project.ipynb                           - файл проекта
+labeled.csv                             - датасет
+stopwords.txt                           - коллекция русских стоп слов
+metrictool.py                           - вспомогаельная библиотека для обработки метрик
+helper_dataset_transformations.py       - библиотека для Pipeline
+helper_evaluating_model.py              - билиотека для вспомогательных функций
+debug_project_short.py                  - черновик
+/tests/dataset_transformations_test.py  - тесты для helper_dataset_transformations.py

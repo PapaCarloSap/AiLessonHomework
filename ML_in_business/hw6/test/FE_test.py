@@ -33,7 +33,6 @@ def test_category_pipeline():
     clf = Pipeline(steps=[('preprocessor', preprocessor),
                         ('regressor',  LinearRegression())])
     clf.fit(df.drop('target', 1), df['target'])
-    a = clf.transform(df.drop('target', 1))
     result = clf.named_steps['preprocessor'].transformers_[1][1].named_steps['onehot'].get_feature_names(categorical_features)
 
     assert result.sort()==['brand_NaN' 'brand_aaaa' 'brand_asdfasdf' 'brand_sadfds' 'category_as' 'category_asdf' 'category_asdfas' 'category_asfa'].sort()
