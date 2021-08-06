@@ -1,2 +1,13 @@
 Homework 2
 Папка для задачи http://jira.local:8080/browse/LS-100
+
+project.ipynb               -   домашняя работа
+baseline.py                 -   реализация Бейзлайн алгоритмов
+detalg.py                   -   детерминированные алгоритмы
+data.zip                    -   датасет
+draft_project.py            -   черновик домашней работы
+draft_sample.py             -   черновик для проверки кода
+helper.py                   -   вспомогательная библиотека для разного
+hw_webinar_2.ipynb          -   домашнее задание
+
+tests/project_test.py       -   тесты домашней работы
