@@ -40,6 +40,15 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "module": "pytest",
+            "args": ["-v","${file}"]
+        },
+        {
+            "name": "Python: Pytest debug target test",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "module": "pytest",
             "args": ["-v","${file}::test_TextCleanerTransform_v2"]
         },
         {

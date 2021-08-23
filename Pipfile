@@ -24,6 +24,7 @@ pymorphy2 = "*"
 nltk = "*"
 tqdm = "*"
 statsmodels = "*"
+implicit = "*"
 
 [dev-packages]
 pytest = "*"

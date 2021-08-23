@@ -1,0 +1,6 @@
+Homework 1
+Папка для задачи http://jira.local:8080/browse/LS-99
+
+project.ipynb                   - файл домашнего задание
+helpers_lib.py                  - вспомогательная библиотека
+tests/experement_test.py        - тесты класса Experement
