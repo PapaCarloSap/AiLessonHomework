@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from pathlib import Path
 import datetime
-#from typing import List
+from typing import Tuple
 
 # class HeaderName():
 #     def __init__(self, data_names:List[str], features_name:List[str]):
@@ -75,41 +75,122 @@ class DataManager():
     #     file.seek(0)
     #     return sum(1 for line in file)
 
-    def get_full_data(self, reload:bool = False)-> pd.DataFrame:
-        if reload or (not os.path.exists(self.__name_data_df_pickle) or not os.path.exists(self.__name_features_df_pickle)):
-            data_df = pd.read_csv(str(self.__path_data), sep=',').drop(columns=['Unnamed: 0'])
-            data_df['buy_time_convert'] = data_df['buy_time'].transform(datetime.datetime.fromtimestamp)
-            data_df.to_pickle(self.__name_data_df_pickle)
-            data_df = data_df.drop(columns='buy_time')
+    def get_full_data(self, reload_csv:bool = False, update_source:bool= False)-> pd.DataFrame:
+        data_df : pd.DataFrame = None
+        features_df : pd.DataFrame = None
+        if reload_csv or (not os.path.exists(self.__name_data_df_pickle) or not os.path.exists(self.__name_features_df_pickle)):
+            data_df, features_df = self._init_data_and_features()
+        else:
+            data_df = pd.read_pickle(self.__name_data_df_pickle)
+            features_df = pd.read_pickle(self.__name_features_df_pickle)
 
-            features_df = pd.read_csv(str(self.__path_features), sep='\t').drop(columns=['Unnamed: 0'])
-            features_df['buy_time_convert'] = features_df['buy_time'].transform(datetime.datetime.fromtimestamp)
-            features_df.to_pickle(self.__name_features_df_pickle)
-            features_df = features_df.drop(columns='buy_time')
-            
-            source_df = self.__generate_source_data(data_df, features_df)
-            source_df.to_pickle(self.__name_source_df_pickle)
+        if update_source or not os.path.exists(self.__name_features_df_pickle):
+            source_df = self._generate_source_data(data_df, features_df)
+            source_df, missing_features_for_user = self._clean_data(source_df)
+            nearest_df = self._get_forward_data_by_date(missing_features_for_user, data_df, features_df)
+            nearest_df, missing_features_for_user = self._clean_data(nearest_df)
+            source_df = pd.concat([source_df, nearest_df])
+            self.save_data(source_df)
             return source_df
         else:
-            return pd.read_pickle(self.__name_source_df_pickle)
+            return self.load_data()
 
-    def __generate_source_data(self, data_df, features_df):
-        #source_df = data_df.join(features_df.set_index(['id', 'buy_time']), on=['id', 'buy_time'], how= 'inner')
+    def _init_data_and_features(self)-> Tuple[pd.DataFrame]:
+        """Загрузить данные из csv файла
+
+        Returns:
+            Tuple[pd.DataFrame]: (пользователь-услуга, описание пользователя)
+        """
+        data_df = pd.read_csv(str(self.__path_data), sep=',').drop(columns=['Unnamed: 0'])
+        data_df['buy_time_convert'] = data_df['buy_time'].transform(datetime.datetime.fromtimestamp)
+        data_df = data_df.drop(columns='buy_time')
+        data_df.to_pickle(self.__name_data_df_pickle)
+
+        features_df = pd.read_csv(str(self.__path_features), sep='\t').drop(columns=['Unnamed: 0'])
+        features_df['buy_time_convert'] = features_df['buy_time'].transform(datetime.datetime.fromtimestamp)
+        features_df = features_df.drop(columns='buy_time')
+        features_df.to_pickle(self.__name_features_df_pickle)
+
+        return data_df, features_df
+            
+
+    def _generate_source_data(self
+        , data_df:pd.DataFrame = None
+        , features_df:pd.DataFrame = None
+    )->pd.DataFrame:
+        """Выбираем последние данные до указанной даты
+
+        Args:
+            data_df ([type]): [description]
+            features_df ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
+        if data_df is None:
+            data_df = pd.read_pickle(self.__name_data_df_pickle)
+        if features_df is None:
+            features_df = pd.read_pickle(self.__name_features_df_pickle)
         data_df = data_df.sort_values(by=['buy_time_convert'])
         features_df = features_df.sort_values(by=['buy_time_convert'])
         source_df = pd.merge_asof(data_df, features_df, on='buy_time_convert', by='id')
-        #! провести проверку что после мержа нет позиций user для которых не найдена features
-        missing_features = data_df.shape[0] - source_df.shape[0]
-        if missing_features > 0:
-            print(f'Features missing for {missing_features} users.')
         return source_df
 
-    def get_data_for_users(self, path_to_users:str)-> pd.DataFrame:
+    def _clean_data(self, df:pd.DataFrame)-> Tuple[pd.DataFrame]:
+        """Удалить строки где отсутствуют описание для пользователей 
+
+        Args:
+            df (pd.DataFrame): данные с пользователями
+
+        Returns:
+            Tuple[pd.DataFrame]: (очищенные данные, удаленные данные)
+        """
+        missing_features = df[df.isnull().sum(axis=1)>252]
+        if missing_features.shape[0]>0:
+            print(f'Features missing for {missing_features.shape[0]} users.')
+        return df.drop(missing_features.index), missing_features
+
+    def _get_forward_data_by_date(self
+        , df:pd.DataFrame
+        , data_df:pd.DataFrame = None
+        , features_df:pd.DataFrame = None
+    )->Tuple[pd.DataFrame]:
+        """Выбираем ближайшее по дате описание пользователя и объеденяем с подключаемой услугой
+
+        Args:
+            df (pd.DataFrame): [description]
+
+        Returns:
+            Tuple[pd.DataFrame]: [description]
+        """
+        if data_df is None:
+            data_df = pd.read_pickle(self.__name_data_df_pickle)
+        if features_df is None:
+            features_df = pd.read_pickle(self.__name_features_df_pickle)
+        data_df = df[['id', 'buy_time_convert']].join(data_df.set_index(['id', 'buy_time_convert']), on=['id', 'buy_time_convert']).sort_values(by=['buy_time_convert'])
+        features_df = features_df.sort_values(by=['buy_time_convert'])
+        #source_df = pd.merge_asof(df[['id', 'vas_id', 'target', 'buy_time_convert']], features_df, on='buy_time_convert', by='id', direction='forward')
+        source_df = pd.merge_asof(
+            data_df, 
+            features_df, 
+            on='buy_time_convert', 
+            by='id', 
+            direction='forward')
+        return source_df
+
+    def save_data(self, source_df:pd.DataFrame, suffix:str=''):
+        source_df.to_pickle(self.__name_source_df_pickle+suffix)
+
+    def load_data(self, suffix:str='')->pd.DataFrame:
+        return pd.read_pickle(self.__name_source_df_pickle)
+
+    def get_data_for_users(self, path_to_users:str)-> Tuple[pd.DataFrame]:
         data_df = pd.read_csv(str(Path(path_to_users)), sep=',').drop(columns=['Unnamed: 0'])
         data_df['buy_time_convert'] = data_df['buy_time'].transform(datetime.datetime.fromtimestamp)
         data_df = data_df.drop(columns='buy_time')
         features_df = pd.read_pickle(self.__name_features_df_pickle)
         features_df = features_df.drop(columns='buy_time')
-        return self.__generate_source_data(data_df, features_df)
+        user_features_df = self._generate_source_data(data_df, features_df)
+        return self._clean_data(user_features_df)
 
     
