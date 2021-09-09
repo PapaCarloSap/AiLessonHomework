@@ -27,7 +27,7 @@ def test_users_generate_source():
     source_df = target._generate_source_data(data_df, features_df)          
     source_df, missing = target._clean_data(source_df)
     assert (3, 257) == source_df.shape
-    assert (3, 257) == missing.shape
+    assert (4, 257) == missing.shape
 
 def test_external_users_generate_source():
     from Megafon.Course_project.data_manager import DataManager

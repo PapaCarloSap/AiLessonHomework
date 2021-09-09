@@ -31,8 +31,9 @@ def show_distribution_variable_pie(df:pd.DataFrame):
     Args:
         df (pd.DataFrame): [description]
     """
-    ax = df.value_counts().plot.pie(autopct="%.2f")
-    _ = ax.set_title("Распределение")
+    #fig, axs = plt.subplots()
+    plt.title("Pie chart: value")
+    plt.pie(df.value_counts(), autopct='%1.1f%%',shadow=True, startangle=45)
 
 def show_distribution_variables_pie(data:Dict[str, pd.DataFrame]):
     num = len(data)

@@ -15,6 +15,13 @@ def show_roc_auc(
     y_train:np.array,
     pipe_lr:Pipeline
 ):
+    """ Значение метрики на кросс-валидации
+
+    Args:
+        X_train (np.array): [description]
+        y_train (np.array): [description]
+        pipe_lr (Pipeline): [description]
+    """
     X_train2 = X_train#[:, [4, 14]]
 
     cv = list(StratifiedKFold(n_splits=3,

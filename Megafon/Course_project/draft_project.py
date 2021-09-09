@@ -83,45 +83,60 @@ helper.show_distribution_variables_pie({'Train':y_train, 'Test':y_test})
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from Megafon.Course_project.helper_evaluating_model import show_roc_auc
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingClassifier
+
+def model_research(name_estimator:str, estimator: Pipeline):
+    estimator.fit(X_train, y_train)
+    pred = estimator.predict_proba(X_test)[:,1]
+    metric_manager.apply(name_estimator, y_test, pred)
 
 # %%
 # Пайплайн для baseline
 # Используем логистическую регрессию как наиболее быстродействующую
-from sklearn.linear_model import LogisticRegression
-model_name = 'Baseline'
 
 # %%
+bl_model_name = 'Baseline'
 bl_estimator = Pipeline([
     ('log_reg', LogisticRegression(random_state=RANDOM_STATE, n_jobs=-1))
 ])
 
-#%%
-from imblearn.under_sampling import RandomUnderSampler
-#rus = RandomUnderSampler(sampling_strategy={0:50000, 1:26050}, random_state=RANDOM_STATE)
-rus = RandomUnderSampler(sampling_strategy={0:200000, 1:42250}, random_state=RANDOM_STATE)
-X_resampled, y_resampled = rus.fit_sample(X_train, y_train)
-helper.show_distribution_variable_pie(y_resampled)
+# значение метрики на кросс-валидации
+show_roc_auc(X_train, y_train, bl_estimator)
 
-# %%
-#bl_estimator.fit(X_train, y_train)
-bl_estimator.fit(X_resampled, y_resampled)
-# model_lr = LogisticRegression()
-# model_lr.fit(X_train, y_train)
-# pred = model_lr.predict_proba(X_test)[:,1]
-pred = bl_estimator.predict_proba(X_test)[:,1]
-metric_manager.apply(model_name, y_test, pred)
-
-#%%
-plt.title("Baseline: распределение предсказаний модели")
-plt.hist(pred[~y_test.astype(bool)], bins=100, color='r', alpha=0.7)
-plt.hist(pred[y_test.astype(bool)], bins=100, color='b', alpha=0.7)
-
-# %%
-# Выбор порога
-metric_manager.get_experiment(model_name).show_proba_calibration_plots(
+model_research(bl_model_name, bl_estimator)
+metric_manager.get_experiment(bl_model_name).show_proba_calibration_plots(
     name_positive = 'Подключение услуги',
     name_negative = 'Не подключил услугу'
 )
+
+#%%
+#from imblearn.under_sampling import RandomUnderSampler
+#rus = RandomUnderSampler(sampling_strategy={0:50000, 1:26050}, random_state=RANDOM_STATE)
+#rus = RandomUnderSampler(sampling_strategy={0:200000, 1:42250}, random_state=RANDOM_STATE)
+#X_resampled, y_resampled = rus.fit_sample(X_train, y_train)
+#helper.show_distribution_variable_pie(y_resampled)
+
+# %%
+#bl_estimator.fit(X_train, y_train)
+#bl_estimator.fit(X_resampled, y_resampled)
+#model_lr = LogisticRegression()
+#model_lr.fit(X_train, y_train)
+#pred = model_lr.predict_proba(X_test)[:,1]
+#pred = bl_estimator.predict_proba(X_test)[:,1]
+#metric_manager.apply(model_name, y_test, pred)
+
+#%%
+# plt.title("Baseline: распределение предсказаний модели")
+# plt.hist(pred[~y_test.astype(bool)], bins=100, color='r', alpha=0.7)
+# plt.hist(pred[y_test.astype(bool)], bins=100, color='b', alpha=0.7)
+
+# %%
+# Выбор порога
+# metric_manager.get_experiment(model_name).show_proba_calibration_plots(
+#     name_positive = 'Подключение услуги',
+#     name_negative = 'Не подключил услугу'
+# )
 
 # %%
 show_roc_auc(X_train, y_train, bl_estimator)

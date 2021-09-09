@@ -87,9 +87,11 @@ class DataManager():
         if update_source or not os.path.exists(self.__name_features_df_pickle):
             source_df = self._generate_source_data(data_df, features_df)
             source_df, missing_features_for_user = self._clean_data(source_df)
-            nearest_df = self._get_forward_data_by_date(missing_features_for_user, data_df, features_df)
-            nearest_df, missing_features_for_user = self._clean_data(nearest_df)
-            source_df = pd.concat([source_df, nearest_df])
+            
+            # nearest_df = self._get_forward_data_by_date(missing_features_for_user, data_df, features_df)
+            # nearest_df, missing_features_for_user = self._clean_data(nearest_df)
+            # source_df = pd.concat([source_df, nearest_df])
+            
             self.save_data(source_df)
             return source_df
         else:
