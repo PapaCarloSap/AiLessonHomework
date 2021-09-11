@@ -54,7 +54,7 @@ source_df.dtypes
 
 # %%
 #source_df[VAS_ID] = source_df[VAS_ID].astype('int')
-source_df[VAS_ID] = source_df[VAS_ID].astype('category')
+#source_df[VAS_ID] = source_df[VAS_ID].astype('category')
 source_df[TARGET] = source_df[TARGET].astype('int')
 helper.show_distribution_variables_pie({'Распределение целевой переменной':source_df[TARGET], 'Распределение подкл. услуги':source_df[VAS_ID]})
 source_df.reset_index()
@@ -66,10 +66,11 @@ helper.print_NaN_data(source_df)
 # Определение типа признаков
 feature_analyzer:FeatureAnalyzer = FeatureAnalyzer(features = source_df.drop([TARGET, USER_ID, BUY_TIME], 1), target=source_df[TARGET])
 feature_analyzer.show_feature_unique()
-X_nunique = source_df.drop([TARGET, USER_ID, BUY_TIME], 1).apply(lambda x: x.nunique(dropna=False))
-plt.title("Распределение уникальных значений признаков")
-X_nunique.hist(bins=100, figsize=(10, 5))
-f_all = set(X_nunique.index.tolist())
+sorted_features = feature_analyzer.share_featres_by_types()
+# X_nunique = source_df.drop([TARGET, USER_ID, BUY_TIME], 1).apply(lambda x: x.nunique(dropna=False))
+# plt.title("Распределение уникальных значений признаков")
+# X_nunique.hist(bins=100, figsize=(10, 5))
+# f_all = set(X_nunique.index.tolist())
 
 # %%
 # делим данные
@@ -83,15 +84,17 @@ helper.show_distribution_variables_pie({'Train':y_train, 'Test':y_test})
 
 # %%
 # Пайплайн
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn import set_config
+from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from Megafon.Course_project.helper_evaluating_model import show_roc_auc
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingClassifier
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import RandomOverSampler
-from Megafon.Course_project.transformers import UnderSamplerTransformer, OverSamplerTransformer
+from Megafon.Course_project.transformers import ColumnSelector
 
 set_config(display='diagram')
 
@@ -124,27 +127,34 @@ def get_oversampler():
     ros = RandomOverSampler(sampling_strategy=0.95, random_state=RANDOM_STATE)
     return ros.fit_sample(X_train, y_train)
 
-# # %%
-# bl_under_model_name = 'Baseline UnderSampler'
-# target_counts = y_train.value_counts()[1]
-# bl_under_estimator = Pipeline([
-#     ('log_reg', LogisticRegression(random_state=RANDOM_STATE, n_jobs=-1))
-# ])
-# model_research(bl_under_model_name, bl_under_estimator, X_train, y_train)
-
 # %%
-bl_over_model_name = 'Baseline OverSampler'
+bl_over_model_name = 'LogisticRegression with feature processing'
+preprocessor = make_pipeline(
+    ColumnSelector(columns=list(sorted_features.categorical | sorted_features.numeric)),
+    FeatureUnion(transformer_list=[
+        ("numeric_features", make_pipeline(
+            ColumnSelector(list(sorted_features.numeric)),
+            #SimpleImputer(strategy="mean"),
+            #StandardScaler()
+        )),
+        ("categorical_features", make_pipeline(
+            ColumnSelector(list(sorted_features.categorical)),
+            #SimpleImputer(strategy="most_frequent"),
+            OneHotEncoder(handle_unknown='ignore')
+        ))
+        # ("boolean_features", make_pipeline(
+        #     ColumnSelector(f_binary),
+        # ))
+    ])
+)
 
-# preprocessor = ColumnTransformer(
-#     transformers=[
-#         (COMMENT_VECTORIZER, text_transformer, COMMENT)
-#         # думаю здесь добавить дополнительные признаки как длинну коментария и т.д.
-#         ]
-#     , remainder='drop'
-#     )
+# X_res, y_res =get_undersampler()
+# a= preprocessor.fit_transform(X_res, y_res)
+# print(a)
 
+##%%
 bl_over_estimator = Pipeline([
-    #('undersampler', preprocessor),
+    ('preprocessor', preprocessor),
     ('log_reg', LogisticRegression(random_state=RANDOM_STATE, n_jobs=-1))
 ])
 X_res, y_res =get_undersampler()

@@ -69,7 +69,7 @@ class FeatureAnalyzer:
         f_other= f_other - binary
         categorical = self.get_categorical(f_other=f_other)
         if self.__feature_unique.shape[0] == len(const) + len(binary) + len(numeric) + len(categorical):
-            return 
+            raise FeaturesNotShare("Остались не обработаные feature: \'{other}\'".format(other=self.__feature_unique.shape[0] - len(const) + len(binary) + len(numeric) + len(categorical)))
         return SortedFeatres(
             all= self.get_all(),
             const = self.get_const(), 
@@ -94,10 +94,13 @@ class FeatureAnalyzer:
                       (self.__features.loc[:, f_other].min() == 0) & \
                       (self.__features.loc[:, f_other].isnull().sum() == 0))])
 
-    def get_categorical(self, f_other:Set[str]) ->Set[str]:
-        return set(self.__feature_unique.loc[f_other][self.__feature_unique.loc[f_other] <= 10].index.tolist())
+    def get_categorical(self, f_other:Set[str], threshold:int = 10) ->Set[str]:
+        return set(self.__feature_unique.loc[f_other][self.__feature_unique.loc[f_other] <= threshold].index.tolist())
 
     def show_feature_unique(self):
         """Распределение уникальных значений признаков"""
         plt.title("Распределение уникальных значений признаков")
         self.__feature_unique.hist(bins=100, figsize=(10, 5))
+
+class FeaturesNotShare(Exception):
+    pass
