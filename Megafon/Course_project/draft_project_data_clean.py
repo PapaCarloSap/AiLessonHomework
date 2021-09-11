@@ -46,7 +46,7 @@ metric_manager = MetricRegressionManager()
 data_manager=DataManager(DATA_PATH, FEATURES_PATH)
 source_df:pd.DataFrame = None
 source_df = data_manager.get_full_data(reload_csv = RELOAD_DATA_SOURCE, update_source = RELOAD_DATA_SOURCE)
-source_df = source_df[:6000]                      #! для реальных расчетов убрать 
+#source_df = source_df[:6000]                      #! для реальных расчетов убрать 
 source_df.info()
 
 # %%
@@ -128,14 +128,14 @@ def get_oversampler():
     return ros.fit_sample(X_train, y_train)
 
 # %%
-bl_over_model_name = 'LogisticRegression with feature processing'
+bl_over_model_name = 'LogReg feat_proc us'
 preprocessor = make_pipeline(
     ColumnSelector(columns=list(sorted_features.categorical | sorted_features.numeric)),
     FeatureUnion(transformer_list=[
         ("numeric_features", make_pipeline(
             ColumnSelector(list(sorted_features.numeric)),
             #SimpleImputer(strategy="mean"),
-            #StandardScaler()
+            StandardScaler()
         )),
         ("categorical_features", make_pipeline(
             ColumnSelector(list(sorted_features.categorical)),
@@ -160,11 +160,45 @@ bl_over_estimator = Pipeline([
 X_res, y_res =get_undersampler()
 model_research(bl_over_model_name, bl_over_estimator, X_res, y_res)
 
+# %%
+bl_over_model_name = 'LogReg feat_proc os'
+preprocessor = make_pipeline(
+    ColumnSelector(columns=list(sorted_features.categorical | sorted_features.numeric)),
+    FeatureUnion(transformer_list=[
+        ("numeric_features", make_pipeline(
+            ColumnSelector(list(sorted_features.numeric)),
+            #SimpleImputer(strategy="mean"),
+            StandardScaler()
+        )),
+        ("categorical_features", make_pipeline(
+            ColumnSelector(list(sorted_features.categorical)),
+            #SimpleImputer(strategy="most_frequent"),
+            OneHotEncoder(handle_unknown='ignore')
+        ))
+        # ("boolean_features", make_pipeline(
+        #     ColumnSelector(f_binary),
+        # ))
+    ])
+)
+
+# X_res, y_res =get_undersampler()
+# a= preprocessor.fit_transform(X_res, y_res)
+# print(a)
+
+##%%
+bl_over_estimator = Pipeline([
+    ('preprocessor', preprocessor),
+    ('log_reg', LogisticRegression(random_state=RANDOM_STATE, n_jobs=-1))
+])
+X_res, y_res =get_oversampler()
+model_research(bl_over_model_name, bl_over_estimator, X_res, y_res)
+
 # -------------------------------------------------------------------------------------------------------------
 #%%
 metric_manager.show_full_report(
     name_negative = 'Не подключил услугу',
-    name_positive = 'Подключение услуги'
+    name_positive = 'Подключение услуги',
+    spec_thr=0.5
 )
 
 metric_manager.show_united_auc()

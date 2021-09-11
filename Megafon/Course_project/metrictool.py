@@ -457,6 +457,9 @@ class Experiment:
         precision, recall, pr_thresholds = precision_recall_curve(self.__y_test, self.__y_pred)
         ax.plot(recall, precision, label=f'{self.__name}: PR (AUC = {auc(recall, precision):.2f})', lw=2, alpha=.8)
 
+    def get_predict(self):
+        return self.__convert_probability_to_bin_by_thresholds(thresholds = self.metric.Thresholds)
+
 class ExperimentRepository:
     
     __repo = dict()
@@ -479,7 +482,6 @@ class ExperimentRepository:
 
     def append(self, name:str, experement: Experiment):
         self.__repo.update({name:experement})
-
 
 class MetricRegressionManager:
 
@@ -509,9 +511,10 @@ class MetricRegressionManager:
                 self.__short_format(experiment.metric.Fscore),
                 self.__short_format(experiment.metric.Precision),
                 self.__short_format(experiment.metric.Recall),               
-                self.__short_format(experiment.metric.Roc_AUC)              
+                self.__short_format(experiment.metric.Roc_AUC),              
+                self.__short_format(f1_score(experiment.y_test, experiment.get_predict(), average='macro')),              
             ])
-        print(tabulate(table, headers=['Name model','Threshold', 'F-Score', 'Precision', 'Recall', 'Roc-AUC']))
+        print(tabulate(table, headers=['Name model','Threshold', 'F-Score', 'Precision', 'Recall', 'Roc-AUC', 'f1-score(macro)']))
 
     def get_experiment(self, name:str)->Experiment:
         return self.__repo[name]
@@ -519,8 +522,9 @@ class MetricRegressionManager:
     def show_full_report(self,
         name_negative:str = 'Main class', # 0
         name_positive:str = 'Another class', # 1
+        spec_thr:float =None
     ):
-        metrics = self.__calc_metrics()
+        metrics = self.__calc_metrics(spec_thr=spec_thr)
         self.__show_charts_report(name_negative, name_positive)
         self.__show_table_report()
 
@@ -532,12 +536,12 @@ class MetricRegressionManager:
         for name, experiment in self.__repo:
             experiment.show_chart_report(name_negative, name_positive)
 
-    def __calc_metrics(self)->Dict[str, Metric]:
+    def __calc_metrics(self, spec_thr:float =None)->Dict[str, Metric]:
         metrics: Dict[str, Metric] = dict()
         name :str = None
         experiment:Experiment = None
         for name, experiment in self.__repo:
-            metrics[name] = experiment.calc_metric() 
+            metrics[name] = experiment.calc_metric(specified_thr=spec_thr) 
         return metrics
 
     def show_united_auc(self):
