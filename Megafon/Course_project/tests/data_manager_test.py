@@ -1,5 +1,6 @@
 from pathlib import Path
 import pandas as pd
+import os.path
 
 
 # def test_readline():
@@ -47,3 +48,8 @@ def test_users_generate_source_v2():
     df = target._get_forward_data_by_date(data_df[1:5], data_df, features_df)
     source_df, missing = target._clean_data(df)
     assert (3, 257) == source_df.shape
+
+def test_model_predict():
+    from Megafon.Course_project.predict import main
+    main()
+    assert os.path.isfile('answers_test.csv') 

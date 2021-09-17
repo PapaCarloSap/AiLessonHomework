@@ -2,6 +2,20 @@
 Папка для эпика http://jira.local:8080/browse/LS-112
 
 project.ipynb                           -   файл проекта
+predict.py                              -   файл расчета data_test.csv
+                                            pipenv shell
+                                            python predict.py
+Presentation.pdf                        -   файл презентаций              
+answers_test.csv                        -   полученный результат      
+
+analyzertool.py                         -   инсрумент анализа данных
+data_test.csv                           -   тестовые данные
+data_train.csv                          -   тренировочные данные
+feature.csv                             -   данные описания пользователя
+helper_evaluating_model.py              -   расчет кросс-валидации 
+helper.py                               -   файл вспомогательных функций
+metrictool.py                           -   инструмент для расчета метрик                                           
 draft_project.py                        -   черновик
+draft_project_data_clean.py             -   черновик
 helper.py                               -   вспомогательные функции
-data_manager.py                         -   менеджер данный, для чтения данных и от отсеивания неликвидных данных.
+data_manager.py                         -   менеджер данный, для чтения данных и от отсеивания нели
