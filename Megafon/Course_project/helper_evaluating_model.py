@@ -24,8 +24,7 @@ def show_roc_auc(
     """
     X_train2 = X_train#[:, [4, 14]]
 
-    cv = list(StratifiedKFold(n_splits=3,
-                                random_state=1).split(X_train, y_train))
+    cv = list(StratifiedKFold(n_splits=3).split(X_train, y_train))
 
     fig = plt.figure(figsize=(7, 5))
 

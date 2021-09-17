@@ -432,7 +432,7 @@ class Experiment:
         ax.set_ylabel('Precision')
         ax.set_title("%s: Precision-Recall curve" % self.__name)
         ax.axis([0.0, 1.0, 0.0, 1.05])
-        ax.legend(loc="lower left")
+        ax.legend(loc="upper right")
 
     def show_chart_report(self,
         name_negative:str = 'Main class', # 0
@@ -553,6 +553,6 @@ class MetricRegressionManager:
             experiment.add_roc_chart(ax1)
             experiment.add_pr_chart(ax2)
         ax1.legend(loc="lower right")
-        ax2.legend(loc="lower right")
+        ax2.legend(loc="upper right")
         fig.tight_layout()
         plt.show()
