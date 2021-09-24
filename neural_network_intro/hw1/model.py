@@ -18,6 +18,13 @@ class Model:
         self.__learning_rate:float = learning_rate
         self.__epoch_num:int = epoch_num
 
+    def __str__(self):
+        return "type: {0}, ep:{1}, rate:{2}".format(
+            str(self.__layers), 
+            self.__epoch_num,
+            self.__learning_rate
+        )
+
     def __set_default_weight(self):
         """Сбрасываем веса на рандомные значения
         """
@@ -41,6 +48,8 @@ class Model:
             last_layer_output_data = layer.output_data    
         return last_layer_output_data 
 
+    def predict_prob(self, input:np.array)->np.array:
+        return self.__prediction(input)
 
     def fit(self, x_train:np.array, y_train:np.array):
         start_time = time.time()

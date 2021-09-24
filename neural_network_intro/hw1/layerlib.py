@@ -136,5 +136,11 @@ class LayerRepository(Sized,Iterator[Layer]):
     def __getitem__(self, number:int) -> Layer:
         return self.__repo.get(number)
 
+    def __str__(self):
+        result:str = ''
+        for key, layer in self.__repo.items():
+            result += f'{layer.neuron}x'
+        return result[:-1]
+
     # def append(self, number:int, experement: Layer):
     #     self.__repo.update({number:experement})
