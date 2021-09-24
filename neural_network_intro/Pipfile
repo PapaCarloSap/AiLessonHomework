@@ -9,7 +9,9 @@ numpy = "*"
 matplotlib = "*"
 seaborn = "*"
 tabulate = "*"
-ipykernel = "*"
+ipykernel = "==5.5.5"
+scikit-learn = "*"
+plotly = "*"
 
 [dev-packages]
 pytest = "*"
