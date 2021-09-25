@@ -1,2 +1,9 @@
 Homework 1
 Папка для задачи: http://jira.local:8080/browse/LS-116
+
+main.ipynb          -   домашняя работа
+activationlib.py    -   ф-ции активации
+layerlib.py         -   библиотека слоев
+metrictool.py       -   метрика
+model.py            -   модель для обучения
+draft1.py           -   черновик
