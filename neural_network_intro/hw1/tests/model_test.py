@@ -61,8 +61,8 @@ def test_model(iris):
     model = Model(
         layer_map=[
             StartLayer(neuron=4),
-            HiddenLayer(neuron=2, activation=Sigmoid),
-            FinishLayer(neuron=3, activation=Sigmoid)
+            HiddenLayer(neuron=2, activation=Sigmoid()),
+            FinishLayer(neuron=3, activation=Sigmoid())
         ],
         epoch_num=1000,
         learning_rate=0.05

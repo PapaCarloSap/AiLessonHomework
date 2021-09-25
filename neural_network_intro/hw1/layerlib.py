@@ -4,14 +4,12 @@ from abc import ABC, abstractmethod
 from typing import Dict,  List, Tuple
 from collections.abc import Sized, Iterable, Iterator
 
-
 class Layer(ABC):
-    _output_data:np.array=None
-    _prev_layer:"Layer"
-    _next_layer:"Layer"
-
     def __init__(self, neuron:int)->None:
         self.__neuron:int = neuron
+        self._output_data:np.array=None
+        self._prev_layer:"Layer" = None
+        self._next_layer:"Layer" = None
 
     @property
     def neuron(self)->int:
@@ -41,6 +39,8 @@ class Layer(ABC):
     def calc_output(self, input:np.array, weight:np.array=None):
         ...
 
+    def __str__(self):
+        return self.__name__
 
 class IBackPropagation():
     @abstractmethod
@@ -60,14 +60,16 @@ class StartLayer(Layer):
     def calc_output(self, input:np.array, weight:np.array=None):
         self._output_data = input
 
+    def __str__(self):
+        return f"{self.neuron}"
+
 
 class HiddenLayer(Layer, IBackPropagation):
-    __delta:np.array = None
-
     def __init__(self,
             neuron:int, 
             activation:Activation
         )->None:
+        self.__delta:np.array = None
         super().__init__(neuron=neuron)
         self.__activation:Activation = activation
 
@@ -85,14 +87,16 @@ class HiddenLayer(Layer, IBackPropagation):
         self.__delta = self.calc_error(expect_output, weight) * self.__activation.derivative(self._output_data)
         return self.__delta
 
+    def __str__(self):
+        return f"{self.neuron}{self.__activation}"
+
     
 class FinishLayer(Layer, IBackPropagation):
-    __delta:np.array = None
-
     def __init__(self,
             neuron:int, 
             activation:Activation
         )->None:
+        self.__delta:np.array = None
         super().__init__(neuron=neuron)
         self.__activation:Activation = activation
 
@@ -110,11 +114,12 @@ class FinishLayer(Layer, IBackPropagation):
         self.__delta =  self.calc_error(expect_output, None) * self.__activation.derivative(self._output_data)
         return self.__delta
 
+    def __str__(self):
+        return f"{self.neuron}{self.__activation}"
 
 class LayerRepository(Sized,Iterator[Layer]):
-    __repo:Dict[int, Layer] = dict()
-
     def __init__(self, data:List[Layer]):
+        self.__repo:Dict[int, Layer] = dict()
         prev_layer = None
         for key, layer in enumerate(data):
             if prev_layer is not None: prev_layer.next_layer = layer
@@ -139,7 +144,7 @@ class LayerRepository(Sized,Iterator[Layer]):
     def __str__(self):
         result:str = ''
         for key, layer in self.__repo.items():
-            result += f'{layer.neuron}x'
+            result += f'{str(layer)}x'
         return result[:-1]
 
     # def append(self, number:int, experement: Layer):

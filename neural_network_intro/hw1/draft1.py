@@ -238,4 +238,100 @@ plt.show() # расскоментируйте, чтобы посмотреть
 print("Аккуратность нейронной сети " + str(round(accuracy,2)) + "%")
 
 #%%
+from hw1.model import Model
+from hw1.layerlib import StartLayer, HiddenLayer, FinishLayer
+from hw1.activationlib import Sigmoid, ReLU
+from hw1.metrictool import MetricRegressionManager
 
+#%%
+learning_rate_fit_metric = MetricRegressionManager()
+
+#%%
+model = Model(
+        layer_map=[
+            StartLayer(neuron=4),
+            HiddenLayer(neuron=5, activation=Sigmoid()),
+            FinishLayer(neuron=3, activation=Sigmoid())
+        ],
+        epoch_num=10000,
+        learning_rate=0.05
+    )
+errors, run_time = model.fit(X_train, y_train)
+learning_rate_fit_metric.apply(
+    str(model),
+    errors,
+    run_time
+    )
+
+model = Model(
+        layer_map=[
+            StartLayer(neuron=4),
+            HiddenLayer(neuron=5, activation=Sigmoid()),
+            FinishLayer(neuron=3, activation=Sigmoid())
+        ],
+        epoch_num=10000,
+        learning_rate=0.10
+    )
+errors, run_time = model.fit(X_train, y_train)
+learning_rate_fit_metric.apply(
+    str(model),
+    errors,
+    run_time
+    )
+
+learning_rate_fit_metric.show_report()
+
+#%%
+epoch_fit_metric = MetricRegressionManager()
+
+model = Model(
+        layer_map=[
+            StartLayer(neuron=4),
+            HiddenLayer(neuron=5, activation=Sigmoid()),
+            FinishLayer(neuron=3, activation=Sigmoid())
+        ],
+        epoch_num=10000,
+        learning_rate=0.05
+    )
+errors, run_time = model.fit(X_train, y_train)
+epoch_fit_metric.apply(
+    str(model),
+    errors,
+    run_time
+    )
+
+model = Model(
+        layer_map=[
+            StartLayer(neuron=4),
+            HiddenLayer(neuron=5, activation=Sigmoid()),
+            FinishLayer(neuron=3, activation=Sigmoid())
+        ],
+        epoch_num=100,
+        learning_rate=0.05
+    )
+errors, run_time = model.fit(X_train, y_train)
+epoch_fit_metric.apply(
+    str(model),
+    errors,
+    run_time
+    )
+
+model = Model(
+        layer_map=[
+            StartLayer(neuron=4),
+            HiddenLayer(neuron=5, activation=Sigmoid()),
+            FinishLayer(neuron=3, activation=Sigmoid())
+        ],
+        epoch_num=1000,
+        learning_rate=0.05
+    )
+errors, run_time = model.fit(X_train, y_train)
+epoch_fit_metric.apply(
+    str(model),
+    errors,
+    run_time
+    )
+
+epoch_fit_metric.show_report()
+
+#%%

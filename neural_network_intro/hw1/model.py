@@ -5,15 +5,13 @@ from hw1.layerlib import Layer, LayerRepository, StartLayer, HiddenLayer, Finish
 import time
 
 class Model:
-    __weights:Dict[Layer, np.array] = dict()
-    __layers:LayerRepository = None
-
     def __init__(self, 
         layer_map:List[Layer],
         learning_rate:float = 0.05,
         epoch_num:int = 10000
 
     ):
+        self.__weights:Dict[Layer, np.array] = dict()
         self.__layers = LayerRepository(layer_map)
         self.__learning_rate:float = learning_rate
         self.__epoch_num:int = epoch_num

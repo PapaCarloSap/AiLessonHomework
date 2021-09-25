@@ -34,11 +34,9 @@ class Experiment:
         ax.plot(self.__errors, label=f'{self.__name}: accur:{self.get_accuracy()} time:{self.get_time_execution()}', lw=2, alpha=.8)
 
 class ExperimentRepository(Sized,Iterator[Experiment]):
-    
-    __repo = dict()
 
     def __init__(self) -> None:
-        pass
+        self.__repo = dict()
 
     def __iter__(self)-> Iterator[Experiment]:
         return iter(self.__repo.items())
@@ -58,8 +56,9 @@ class ExperimentRepository(Sized,Iterator[Experiment]):
 
 class MetricRegressionManager:
 
-    def __init__(self):
+    def __init__(self, name:str):
         self.__repo = ExperimentRepository() 
+        self.__name = name
 
     def apply(self, name:str, errors: np.array, run_time: float):
         self.__repo.append(name, Experiment(name, errors, run_time))
@@ -87,7 +86,7 @@ class MetricRegressionManager:
 
     def __show_fit_progress(self):
         fig, ((ax1)) = plt.subplots(1, 1,figsize=(12,5))
-        fig.suptitle('Прогресс обучения', fontsize=16)
+        fig.suptitle(f'Прогресс обучения: {self.__name}', fontsize=16)
         experiment:Experiment = None
         for name, experiment in self.__repo:
             experiment.add_fit_progress(ax1)
