@@ -5,13 +5,13 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-numpy = "*"
 matplotlib = "*"
 seaborn = "*"
 tabulate = "*"
 ipykernel = "==5.5.5"
 scikit-learn = "*"
 plotly = "*"
+tensorflow = "*"
 
 [dev-packages]
 pytest = "*"
