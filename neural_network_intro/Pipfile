@@ -5,11 +5,12 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-numpy = "*"
 matplotlib = "*"
 seaborn = "*"
 tabulate = "*"
 ipykernel = "*"
+keras = "*"
+tensorflow = "*"
 
 [dev-packages]
 pytest = "*"
