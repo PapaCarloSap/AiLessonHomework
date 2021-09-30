@@ -8,8 +8,9 @@ pandas = "*"
 matplotlib = "*"
 seaborn = "*"
 tabulate = "*"
-ipykernel = "*"
-keras = "*"
+ipykernel = "==5.5.5"
+scikit-learn = "*"
+plotly = "*"
 tensorflow = "*"
 
 [dev-packages]
