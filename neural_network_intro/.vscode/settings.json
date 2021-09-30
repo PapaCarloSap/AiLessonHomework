@@ -1,23 +1,8 @@
 {
-    "python.defaultInterpreterPath ": "C:\\Python\\Python38\\python.exe",
-    "sqltools.connections": [
-        {
-            "mysqlOptions": {
-                "authProtocol": "default"
-            },
-            "previewLimit": 50,
-            "server": "192.168.2.45",
-            "port": 3306,
-            "askForPassword": true,
-            "driver": "MySQL",
-            "name": "DBvmCourse",
-            "username": "solomennik",
-            "database": "mysql"
-        }
-    ],
     "jupyter.jupyterServerType": "local",
     "jupyter.notebookFileRoot": "${workspaceFolder}",
     "jupyter.experimental.debugging": true,
+    "jupyter.experimental.optOutFrom":["NativeNotebookEditor"],
     "jupyter.debugJustMyCode": true,
     "jupyter.debugpyDistPath": "",
     "jupyter.interactiveWindowMode": "single",
