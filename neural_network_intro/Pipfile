@@ -8,10 +8,10 @@ pandas = "*"
 matplotlib = "*"
 seaborn = "*"
 tabulate = "*"
-ipykernel = "==5.5.5"
 scikit-learn = "*"
 plotly = "*"
 tensorflow = "*"
+ipykernel = "==5.5.5"
 
 [dev-packages]
 pytest = "*"
