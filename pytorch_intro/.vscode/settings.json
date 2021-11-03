@@ -1,0 +1,17 @@
+{
+    "jupyter.jupyterServerType": "local",
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "jupyter.experimental.debugging": true,
+    "jupyter.experimental.optOutFrom":["NativeNotebookEditor"],
+    "jupyter.debugJustMyCode": true,
+    "jupyter.debugpyDistPath": "",
+    "jupyter.interactiveWindowMode": "single",
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        "--rootdir=${workspaceRoot}"
+    ],
+    "python.testing.cwd": "${workspaceRoot}",
+    "python.envFile": "${workspaceFolder}/dev.env"
+}
