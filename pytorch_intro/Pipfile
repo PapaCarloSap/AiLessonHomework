@@ -3,6 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu113"
+verify_ssl = false
+
 [packages]
 pandas = "*"
 matplotlib = "*"
@@ -10,9 +15,12 @@ seaborn = "*"
 tabulate = "*"
 scikit-learn = "*"
 plotly = "*"
-torch = "*"
-torchvision = "*"
 ipykernel = "*"
+torch = {version="==1.10.0+cu113", index="pytorch"} 
+torchvision = {version="==0.11.1+cu113", index="pytorch"} 
+torchaudio = {version="==0.10.0+cu113", index="pytorch"}
+tqdm = "*"
+ipywidgets = "*"
 
 [dev-packages]
 pytest = "*"
