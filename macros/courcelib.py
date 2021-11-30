@@ -42,8 +42,8 @@ class JiraCalc:
 
 if __name__ == '__main__':
     create_course_pack_folders(
-        name_cource = 'neural_network_intro',
-        total_lesson = 8,
-        epic = 'LS-114',
-        start_jira = 116 
+        name_cource = 'PyTorch_intro',
+        total_lesson = 6,
+        epic = 'LS-125',
+        start_jira = 127 
         )
