@@ -3,12 +3,20 @@ import shutil
 
 
 def create_course_pack_folders(name_cource:str, total_lesson:int, epic:str, start_jira:int):
+    """[summary]
+
+    Args:
+        name_cource (str): Имя папки где будут сгенерены папки
+        total_lesson (int): Количество лекций, без курсового проекта
+        epic (str): Номер эпика
+        start_jira (int): Номер jira индекса с которого стартуют лекции
+    """
     root_folder = os.path.abspath('{0}'.format(name_cource))
     if not os.path.exists(root_folder):
         os.mkdir(root_folder)
     with open('{0}\\Readme'.format(root_folder), 'w') as file:
             file.write('Папка для эпика: {0}\n'.format('{0}{1}'.format(JiraCalc.jira_path, epic)))
-            file.write('hw#             - Домашние задания для номаера #\n')
+            file.write('hw#             - Домашние задания для номера #\n')
             file.write('cource_project  - Курсовой проект\n')
     create_hw_folders(total_lesson, name_cource, start_jira)
     create_cource_project_folder(name_cource)
@@ -42,8 +50,8 @@ class JiraCalc:
 
 if __name__ == '__main__':
     create_course_pack_folders(
-        name_cource = 'PyTorch_intro',
-        total_lesson = 6,
-        epic = 'LS-125',
-        start_jira = 127 
+        name_cource = 'natural_language_intro',
+        total_lesson = 14,
+        epic = 'LS-134',
+        start_jira = 136 
         )
