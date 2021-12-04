@@ -1,2 +1,9 @@
 Homework 1
 Папка для задачи: http://jira.local:8080/browse/LS-136
+
+draft.ipynb     -   Домашняя работа
+texteditor.py   -   Вспомогательный модуль для обработки текста
+text_utils.py   -   Коллекция словарей
+df_preprocessing.pkl    -   Результат  
+content         -   Папка исходных данных
+texteditor_test.py  -   файл тестирования методов преобразования текста
