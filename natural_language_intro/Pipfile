@@ -24,6 +24,7 @@ torchaudio = {version="==0.10.0+cu113", index="pytorch"}
 tqdm = "*"
 ipywidgets = "*"
 termcolor = "*"
+nltk = "*"
 
 [dev-packages]
 pytest = "*"
