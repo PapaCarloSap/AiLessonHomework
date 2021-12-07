@@ -25,6 +25,7 @@ tqdm = "*"
 ipywidgets = "*"
 termcolor = "*"
 nltk = "*"
+deprecated = "*"
 
 [dev-packages]
 pytest = "*"
