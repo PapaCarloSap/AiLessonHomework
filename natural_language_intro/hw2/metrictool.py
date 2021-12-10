@@ -8,7 +8,11 @@ from sklearn import metrics
 from sklearn.metrics import f1_score, roc_auc_score, precision_score, precision_recall_curve, confusion_matrix, recall_score, roc_curve, auc
 from tabulate import tabulate
 from deprecated import deprecated
-from typing import List, Dict
+from typing import List, Dict, Set, Iterator
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+from plotly.graph_objects import FigureWidget
 
 
 class ConfusionMatrix:
@@ -200,6 +204,9 @@ class Metric:
     def Confusion_matrix(self)->ConfusionMatrix:
         return self.__confusion_matrix
 
+    def calc_PR_AUC(self)->np.float:
+        return auc(self.__recall, self.__precision)
+
     def to_tuple(self):
         return self.__thresholds, self.__fscore, self.__precision, self.__recall
 
@@ -233,6 +240,8 @@ class Experiment:
         
     @property
     def metric(self)->Metric:
+        if self.__metric is None:
+            self.calc_metric()
         return self.__metric
 
     def calc_metric(self, specified_thr:float = None)->Metric:
@@ -457,17 +466,55 @@ class Experiment:
         precision, recall, pr_thresholds = precision_recall_curve(self.__y_test, self.__y_pred)
         ax.plot(recall, precision, label=f'{self.__name}: PR (AUC = {auc(recall, precision):.2f})', lw=2, alpha=.8)
 
+    def get_auc(self)->pd.DataFrame:
+        fpr, tpr, roc_thresholds = roc_curve(self.__y_test, self.__y_pred)
+        precision, recall, pr_thresholds = precision_recall_curve(self.__y_test, self.__y_pred)
+        name = f'{self.__name}: ROC (AUC = {auc(fpr, tpr):.2f}) PR (AUC = {auc(recall, precision):.2f})'
+        result = pd.DataFrame({
+            'fpr_recall': fpr,
+            'tpr_precision': tpr,
+            'name': name,
+            'chart_type': 'ROC',
+        })
+        return result.append(pd.DataFrame({
+            'fpr_recall': recall,
+            'tpr_precision': precision,
+            'name': name,
+            'chart_type': 'PR',
+        }))
+        
+
+    def get_roc_auc_interactive(self)->pd.DataFrame:
+        fpr, tpr, roc_thresholds = roc_curve(self.__y_test, self.__y_pred)
+        name = f'{self.__name}: ROC (AUC = {auc(fpr, tpr):.2f})'
+        return go.Scatter(
+            x=fpr, 
+            y=tpr, 
+            mode='lines', 
+            name=name,
+            )
+
+    def get_pr_chart_interactive(self):
+        precision, recall, pr_thresholds = precision_recall_curve(self.__y_test, self.__y_pred)
+        name=f'{self.__name}: PR (AUC = {auc(recall, precision):.2f})'
+        return go.Scatter(
+            x=recall, 
+            y=precision, 
+            mode='lines', 
+            name=name,
+            )
+        
     def get_predict(self):
         return self.__convert_probability_to_bin_by_thresholds(thresholds = self.metric.Thresholds)
 
 class ExperimentRepository:
     
-    __repo = dict()
+    __repo:Dict[str, Experiment] = dict()
 
     def __init__(self) -> None:
         pass
 
-    def __iter__(self):
+    def __iter__(self):#-> Iterator[str, Experiment]: 
         return iter(self.__repo.items())
 
     def __next__(self):
@@ -488,8 +535,8 @@ class MetricRegressionManager:
     def __init__(self):
         self.__repo = ExperimentRepository() 
 
-    def apply(self, name:str, y_test: np.array, y_pred: np.array):
-        self.__repo.append(name, Experiment(name, y_test, y_pred))
+    def apply(self, name:str, y_true: np.array, y_pred: np.array):
+        self.__repo.append(name, Experiment(name, y_true, y_pred))
 
     def calc_metric(self, name:str)->Metric:
         return self.__repo[name].calc_metric()
@@ -557,3 +604,66 @@ class MetricRegressionManager:
         ax2.legend(loc="upper right")
         fig.tight_layout()
         plt.show()
+        
+    def show_united_auc_interactive(self):
+        """Построение AUC с возможностью прокликать каждый график
+        """
+        fig_roc = make_subplots(subplot_titles=['ROC'])        
+        fig_pr = make_subplots(subplot_titles=['PR'])        
+        experiment:Experiment = None
+        df = pd.DataFrame()
+        for name, experiment in self.__repo:
+            fig_roc.add_trace(experiment.get_roc_auc_interactive(), row=1, col=1) 
+            fig_pr.add_trace(experiment.get_pr_chart_interactive(), row=1, col=1)
+        fig_roc.add_shape(
+            type='line', line=dict(dash='dash'),
+            x0=0, x1=1, y0=0, y1=1
+        )
+        fig_pr.add_shape(
+            type='line', line=dict(dash='dash'),
+            x0=0, x1=1, y0=1, y1=0
+        )
+        fig_roc.update_layout(
+            title_text="AUC",
+            xaxis_title='False Positive Rate',
+            yaxis_title='True Positive Rate',
+            yaxis=dict(scaleanchor="x", scaleratio=1),
+            xaxis=dict(constrain='domain'),
+            width=1100, height=500
+        )
+        fig_pr.update_layout(
+            title_text="AUC",
+            xaxis_title='Recall',
+            yaxis_title='Precision',
+            yaxis=dict(scaleanchor="x", scaleratio=1),
+            xaxis=dict(constrain='domain'),
+            width=1100, height=500
+        )
+        fig_roc.show()
+        fig_pr.show()
+        
+    def show_united_auc_interactive_v2(self):
+        """Построение AUC с возможностью прокликать каждый график
+        """
+        fig = make_subplots(rows=1, cols=2, subplot_titles=('ROC','PR'))        
+        experiment:Experiment = None
+        df = pd.DataFrame()
+        for name, experiment in self.__repo:
+            df = df.append(experiment.get_auc(), ignore_index=True)
+        fig = px.line(
+            df, 
+            x="fpr_recall", 
+            y="tpr_precision", 
+            color="name", 
+            # facet_col="chart_type", 
+            facet_row="chart_type",    
+                    
+            )
+        fig.update_layout(height=1000, width=1100, title_text="AUC")
+        fig['layout']['annotations'][1].update(text='ROC')
+        fig['layout']['annotations'][0].update(text='PR')
+        fig['layout']['xaxis2']['title'].update(text='False positive rate')
+        fig['layout']['yaxis2']['title'].update(text='True positive rate')
+        fig['layout']['xaxis']['title'].update(text='Recall')
+        fig['layout']['yaxis']['title'].update(text='Precision')
+        fig.show()
