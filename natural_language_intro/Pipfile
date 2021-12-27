@@ -29,6 +29,7 @@ deprecated = "*"
 gensim = "==3.8.2"
 pydrive = "*"
 fasttext = "*"
+pexpect = "*"
 
 [dev-packages]
 pytest = "*"
