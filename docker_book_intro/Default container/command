@@ -1,0 +1,8 @@
+sudo docker build .
+sudo docker tag 66c76cea05bb todoapp
+sudo docker run -i -t -p 8000:8000 --name example1 todoapp
+sudo docker run -d -p 8000:8000 --name example1 todoapp
+docker start example1
+
+sudo docker images
+sudo docker ps -a
